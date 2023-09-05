@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1286247852284751910}
   - component: {fileID: 1823175639864330808}
   - component: {fileID: 3525185429658867343}
+  - component: {fileID: 83073433838244870}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -98,7 +99,51 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 5
-  rotateSpeed: 5
+  _rotateSpeed: 5
+  _playerModelTrans: {fileID: 5898085164008486870}
+--- !u!114 &83073433838244870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 338698118066647499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 36ab4f44819a42c46b6864f25a77ea17,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 7fd6eab9-f387-4ec4-ac92-310e11cafcc6
+    m_ActionName: Player/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b22d7c91-8e16-4199-af97-3014ee3f31ea
+    m_ActionName: Player/Throttle[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 6dfb34ef-892c-470f-8ec0-21c4883de2b2
+    m_ActionName: UI/New action
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Player
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1001 &3648826062896738422
 PrefabInstance:
   m_ObjectHideFlags: 0
