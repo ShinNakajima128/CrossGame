@@ -18,6 +18,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     #endregion
 
     #region private
+    private GameState _currentState;
     #endregion
 
     #region Constant
@@ -53,6 +54,14 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     #endregion
 
     #region public method
+    /// <summary>
+    /// ゲームの状態を更新する
+    /// </summary>
+    /// <param name="newState"></param>
+    public void ChangeGameState(GameState newState)
+    {
+        _currentState = newState;
+    }
     /// <summary>
     /// ゲームを開始する
     /// </summary>
@@ -94,4 +103,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
     #region coroutine method
     #endregion
+}
+
+public enum GameState
+{
+    Title,
+    InGame,
+    Result
 }
