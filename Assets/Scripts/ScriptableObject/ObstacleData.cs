@@ -3,12 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class Building : MonoBehaviour
+[CreateAssetMenu(menuName = "Myscriptable/ObstacleData")]
+public class ObstacleData : ScriptableObject
 {
     #region property
+    public ObstacleType Type => _type;
+    public int Score => _score;
     #endregion
 
     #region serialize
+    [SerializeField]
+    private string _name = default;
+
+    [SerializeField]
+    private ObstacleType _type = default;
+
+    [SerializeField]
+    private int _score = 100;
     #endregion
 
     #region private
@@ -21,15 +32,6 @@ public class Building : MonoBehaviour
     #endregion
 
     #region unity methods
-    private void Awake()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
     #endregion
 
     #region public method
@@ -42,10 +44,11 @@ public class Building : MonoBehaviour
     #endregion
 }
 
-public enum BuildingType
+public enum ObstacleType
 {
-    Building1,
-    Building2,
-    Building3,
-    Building4,
+    Car_Normal,
+    Car_Truck,
+    Car_Bus,
+    Train,
+    Box,
 }
