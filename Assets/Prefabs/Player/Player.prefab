@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 1823175639864330808}
   - component: {fileID: 3525185429658867343}
   - component: {fileID: 83073433838244870}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -43,7 +43,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338698118066647499}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 7692bc24bf2947543a1c8e8efe22e25d, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -98,8 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c878ac32639569c49a3c78073b2ccf91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 5
-  _rotateSpeed: 5
+  _moveSpeed: 25
+  _rotateSpeed: 1.5
+  _maxSpeed: 20
   _playerModelTrans: {fileID: 5898085164008486870}
 --- !u!114 &83073433838244870
 MonoBehaviour:
@@ -156,6 +157,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerModel
+      objectReference: {fileID: 0}
+    - target: {fileID: 3501129292247585657, guid: 863dd7211da85a44387ed46ddf79788e,
+        type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7167776558816397216, guid: 863dd7211da85a44387ed46ddf79788e,
         type: 3}
