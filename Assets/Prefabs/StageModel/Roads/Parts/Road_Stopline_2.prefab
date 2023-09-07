@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2597158105954256713}
   - component: {fileID: 1415588356693231852}
   - component: {fileID: 3765529726160075814}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Road_Stopline_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
