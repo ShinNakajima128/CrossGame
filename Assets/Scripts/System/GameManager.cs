@@ -12,6 +12,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public IObservable<bool> GamePauseObserver => _gamePauseSubject;
     public IObservable<Unit> GameEndObserver => _gameEndSubject;
     public IObservable<Unit> GameResetObserver => _gameResetSubject;
+    public IObservable<int> AddScoreObserver => _addScoreSubject;
     #endregion
 
     #region serialize
@@ -35,6 +36,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private Subject<Unit> _gameEndSubject = new Subject<Unit>();
     /// <summary>ゲームの内容をリセットするSubject</summary>
     private Subject<Unit> _gameResetSubject = new Subject<Unit>();
+    /// <summary>ゲームの内容をリセットするSubject</summary>
+    private Subject<int> _addScoreSubject = new Subject<int>();
     #endregion
 
     #region unity methods
@@ -103,11 +106,4 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
 
     #region coroutine method
     #endregion
-}
-
-public enum GameState
-{
-    Title,
-    InGame,
-    Result
 }
