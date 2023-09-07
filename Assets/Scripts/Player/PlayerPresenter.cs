@@ -9,6 +9,11 @@ public class PlayerPresenter : MonoBehaviour
     #endregion
 
     #region serialize
+    [SerializeField]
+    private PlayerModel _model = default;
+
+    [SerializeField]
+    private PlayerView _view = default;
     #endregion
 
     #region private

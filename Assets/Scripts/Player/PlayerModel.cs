@@ -7,12 +7,16 @@ using UniRx.Triggers;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
-public class PlayerModel : MonoBehaviour
+public partial class PlayerModel : MonoBehaviour
 {
     #region property
     #endregion
 
     #region serialize
+    [Header("各数値")]
+    [SerializeField]
+    private int _maxHP = 3;
+
     [SerializeField]
     private float _moveSpeed = 5.0f;
 
@@ -24,13 +28,23 @@ public class PlayerModel : MonoBehaviour
 
     [SerializeField]
     private Transform _playerModelTrans = default;
+
+    [Header("各ステータス時のモデルの色")]
+    [SerializeField]
+    private Color _slowStateColor = Color.black;
+
+    [SerializeField]
+    private Color _infiltratorStateColor = default;
     #endregion
 
     #region private
     private PlayerInput _input;
     private Rigidbody _rb;
+    private PlayerStatus _status;
 
     private Vector2 _inputAxis;
+    private float _currentMoveSpeed;
+    private Renderer _playerModelRenderer;
     #endregion
 
     #region Constant
@@ -44,6 +58,10 @@ public class PlayerModel : MonoBehaviour
     {
         _input = GetComponent<PlayerInput>();
         _rb = GetComponent<Rigidbody>();
+        _status = new PlayerStatus(_maxHP);
+
+        _playerModelRenderer = _playerModelTrans.gameObject.GetComponent<Renderer>();
+        _currentMoveSpeed = _moveSpeed;
     }
 
     private void Start()
@@ -52,13 +70,9 @@ public class PlayerModel : MonoBehaviour
             .TakeUntilDestroy(this)
             .Subscribe(_ =>
             {
-                OnRotate();
-            });
-        this.FixedUpdateAsObservable()
-            .TakeUntilDestroy(this)
-            .Subscribe(_ =>
-            {
-                ApplyMoving();
+                SetRotateInput();
+                OnMoving();
+                DebugInput();
             });
     }
 
@@ -78,49 +92,53 @@ public class PlayerModel : MonoBehaviour
     #endregion
 
     #region private method
-    private void SetDirection(Vector2 dir)
-    {
-        _inputAxis = dir;
-    }
-
-    //private void SetThrottle(InputAction.CallbackContext obj)
-    //{
-    //    var value = obj.ReadValue<bool>();
-    //    _isThrottle = value;
-    //}
-
-    private void ApplyMoving()
+    private void OnMoving()
     {
         if (_input.actions["Throttle"].IsPressed())
         {
-            _rb.velocity = _playerModelTrans.forward * _moveSpeed;
+            _rb.velocity = _playerModelTrans.forward * _currentMoveSpeed;
         }
         else
         {
             _rb.velocity = Vector2.zero;
         }
     }
-
-    private void OnRotate()
+    private void SetDirection(Vector2 dir)
     {
-        if (_inputAxis != Vector2.zero && _rb.velocity.magnitude != 0)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(_inputAxis);
-            _playerModelTrans.rotation = Quaternion.Slerp(_playerModelTrans.rotation, targetRotation, Time.deltaTime * _rotateSpeed);
-
-            //_playerModelTrans.Rotate(new Vector3(0f, _inputAxis.x * _rotateSpeed, 0f));
-        }
+        _inputAxis = dir;
     }
-    
     private void OnRotate(InputAction.CallbackContext obj)
     {
         var value = obj.ReadValue<Vector2>();
         value.y = 0;
         SetDirection(value);
     }
+    private void SetRotateInput()
+    {
+        if (_inputAxis != Vector2.zero && _rb.velocity.magnitude != 0)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(_inputAxis);
+            _playerModelTrans.rotation = Quaternion.Slerp(_playerModelTrans.rotation, targetRotation, Time.deltaTime * _rotateSpeed);
+        }
+    }
     private void OnResetInput(InputAction.CallbackContext obj)
     {
         SetDirection(Vector2.zero);
+    }
+    private void DebugInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            _status.ChangeState(this, PlayerState.Normal);
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            _status.ChangeState(this, PlayerState.Slowing);
+        }
+        else if (Input.GetKeyDown(KeyCode.R))
+        {
+            _status.ChangeState(this, PlayerState.Infiltrator);
+        }
     }
     #endregion
 
