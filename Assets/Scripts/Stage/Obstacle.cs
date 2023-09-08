@@ -1,9 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
-using System;
+using DG.Tweening;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
@@ -19,18 +20,22 @@ public class Obstacle : MonoBehaviour, IPoolable
     #endregion
 
     #region private
+    private Renderer _obstacleRenderer;
+
+    private bool _isVanished = false;
     #endregion
 
     #region Constant
     #endregion
 
     #region Event
+    private Subject<Unit> _inactiveSubject = new Subject<Unit>();
     #endregion
 
     #region unity methods
     private void Awake()
     {
-
+        _obstacleRenderer = GetComponent<Renderer>();
     }
 
     private void Start()
@@ -40,7 +45,11 @@ public class Obstacle : MonoBehaviour, IPoolable
             .Where(x => x.gameObject.CompareTag(GameTag.Player))
             .Subscribe(x =>
             {
-                
+                if (!_isVanished)
+                {
+                    OnVanish();
+                    _isVanished = true;
+                }
             });
     }
     #endregion
@@ -48,13 +57,33 @@ public class Obstacle : MonoBehaviour, IPoolable
     #region public method
     public void ReturnPool()
     {
-        throw new NotImplementedException();
+        _inactiveSubject.OnNext(Unit.Default);
     }
     #endregion
 
     #region private method
+    private void OnVanish()
+    {
+        StartCoroutine(OnVanishCoroutine());
+    }
     #endregion
-    
+
     #region coroutine method
+    private IEnumerator OnVanishCoroutine()
+    {
+        yield return new WaitForSeconds(1.5f);
+
+        float ditherAmount = 1.0f;
+
+        DOTween.To(() =>
+                ditherAmount,
+                x => ditherAmount = x,
+                0f,
+                1.5f)
+               .OnUpdate(() =>
+               {
+                   _obstacleRenderer.material.SetFloat("_Opacity", ditherAmount);
+               });
+    }
     #endregion
 }

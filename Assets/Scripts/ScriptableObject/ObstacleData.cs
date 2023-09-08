@@ -43,12 +43,3 @@ public class ObstacleData : ScriptableObject
     #region coroutine method
     #endregion
 }
-
-public enum ObstacleType
-{
-    Car_Normal,
-    Car_Truck,
-    Car_Bus,
-    Train,
-    Box,
-}
