@@ -59,7 +59,7 @@ public partial class PlayerModel : MonoBehaviour
                     break;
                 case PlayerState.Infiltrator:
                     model.gameObject.layer = 6;
-                    model._playerModelRenderer.material.SetFloat("DitherLevel", 0);
+                    model._playerModelRenderer.material.SetFloat("_Opacity", 1f);
                     break;
                 case PlayerState.Invincible:
                     break;
@@ -71,21 +71,22 @@ public partial class PlayerModel : MonoBehaviour
             switch (newState)
             {
                 case PlayerState.Normal:
-                    model._playerModelRenderer.material.color = Color.white;
+                    model._playerModelRenderer.material.SetColor("_AlbedoColor", Color.white);
                     break;
                 case PlayerState.Slowing:
                     model._currentMoveSpeed /= 2;
-                    model._playerModelRenderer.material.color = model._slowStateColor;
+                    model._playerModelRenderer.material.SetColor("_AlbedoColor", model._slowStateColor);
                     break;
                 case PlayerState.Infiltrator:
                     model.gameObject.layer = 13; //LayerÇÃÅu13ÅvÇ…äÑÇËìñÇƒÇƒÇ¢ÇÈìßâﬂèÛë‘Ç…ïœçXÇ∑ÇÈ
-                    model._playerModelRenderer.material.SetFloat("DitherLevel", 8);
+                    model._playerModelRenderer.material.SetFloat("_Opacity", 0.3f);
                     break;
                 case PlayerState.Invincible:
                     break;
                 default:
                     break;
             }
+            _currentState = newState;
         }
         public void ResetStatus(int maxHP)
         {

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UniRx;
 using UniRx.Triggers;
+using DG.Tweening;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
@@ -32,9 +33,6 @@ public partial class PlayerModel : MonoBehaviour
     [Header("各ステータス時のモデルの色")]
     [SerializeField]
     private Color _slowStateColor = Color.black;
-
-    [SerializeField]
-    private Color _infiltratorStateColor = default;
     #endregion
 
     #region private
@@ -45,6 +43,8 @@ public partial class PlayerModel : MonoBehaviour
     private Vector2 _inputAxis;
     private float _currentMoveSpeed;
     private Renderer _playerModelRenderer;
+
+    private Coroutine _boostCoroutine;
     #endregion
 
     #region Constant
@@ -89,6 +89,17 @@ public partial class PlayerModel : MonoBehaviour
     #endregion
 
     #region public method
+    public void OnBoost(float boostAmount, float boostTime)
+    {
+        if (_boostCoroutine != null)
+        {
+            StopCoroutine(_boostCoroutine);
+            _boostCoroutine = null;
+            _currentMoveSpeed = _moveSpeed;
+        }
+
+        _boostCoroutine = StartCoroutine(BoostCoroutine(boostAmount, boostTime));
+    }
     #endregion
 
     #region private method
@@ -139,9 +150,34 @@ public partial class PlayerModel : MonoBehaviour
         {
             _status.ChangeState(this, PlayerState.Infiltrator);
         }
+        else if (Input.GetKeyDown(KeyCode.Z))
+        {
+            OnBoost(15, 5);
+        }
     }
     #endregion
 
     #region coroutine method
+    private IEnumerator BoostCoroutine(float boostAmount, float boostTime)
+    {
+        var originSpeed = _currentMoveSpeed;
+        var moveSpeed = _currentMoveSpeed + boostAmount;
+
+        DOTween.To(() => 
+               _currentMoveSpeed,
+               x => _currentMoveSpeed = x,
+               moveSpeed,
+               0.5f)
+               .WaitForCompletion();
+
+        yield return new WaitForSeconds(boostTime);
+
+        DOTween.To(() =>
+               _currentMoveSpeed,
+               x => _currentMoveSpeed = x,
+               originSpeed,
+               0.5f)
+               .WaitForCompletion();
+    }
     #endregion
 }
