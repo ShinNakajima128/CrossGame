@@ -100,12 +100,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHP: 3
-  _moveSpeed: 25
+  _moveSpeed: 20
   _rotateSpeed: 1.5
   _maxSpeed: 20
   _playerModelTrans: {fileID: 331670956762348918}
-  _slowStateColor: {r: 0.4339623, g: 0.08067837, b: 0, a: 1}
-  _infiltratorStateColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+  _slowStateColor: {r: 0.3, g: 0.3, b: 0.3, a: 1}
 --- !u!114 &83073433838244870
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +163,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3192963196413304196
 Transform:
   m_ObjectHideFlags: 0
