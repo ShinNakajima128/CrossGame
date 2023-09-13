@@ -9,6 +9,11 @@ public class BoostItem : ItemBase
     #endregion
 
     #region serialize
+    [SerializeField]
+    private float _boostAmount = 15f;
+
+    [SerializeField]
+    private float _boostTime = 3f;
     #endregion
 
     #region private
@@ -35,7 +40,7 @@ public class BoostItem : ItemBase
     #region public method
     public override void Use(PlayerModel model)
     {
-        
+        model.OnBoost(_boostAmount, _boostTime);
     }
     #endregion
 

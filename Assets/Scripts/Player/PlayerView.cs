@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 using UniRx;
 
 public class PlayerView : MonoBehaviour
@@ -9,6 +11,11 @@ public class PlayerView : MonoBehaviour
     #endregion
 
     #region serialize
+    [SerializeField]
+    private TextMeshProUGUI _scoreTMP = default;
+
+    [SerializeField]
+    private Image _hpImage = default;
     #endregion
 
     #region private
@@ -33,6 +40,10 @@ public class PlayerView : MonoBehaviour
     #endregion
 
     #region public method
+    public void UpdateScoreView(float score)
+    {
+        _scoreTMP.text = $"Score : {score}";
+    }
     #endregion
 
     #region private method

@@ -42,9 +42,12 @@ public partial class PlayerModel : MonoBehaviour
 
     private Vector2 _inputAxis;
     private float _currentMoveSpeed;
-    private Renderer _playerModelRenderer;
+    private bool _isDamaged = false;
+    private bool _isInvincibled = false;
 
+    private Renderer _playerModelRenderer;
     private Coroutine _boostCoroutine;
+    private Coroutine _damageCoroutine;
     #endregion
 
     #region Constant
@@ -70,8 +73,11 @@ public partial class PlayerModel : MonoBehaviour
             .TakeUntilDestroy(this)
             .Subscribe(_ =>
             {
-                SetRotateInput();
-                OnMoving();
+                if (!_isDamaged)
+                {
+                    SetRotateInput();
+                    OnMoving();
+                }
                 DebugInput();
             });
     }
@@ -99,6 +105,15 @@ public partial class PlayerModel : MonoBehaviour
         }
 
         _boostCoroutine = StartCoroutine(BoostCoroutine(boostAmount, boostTime));
+    }
+
+    public void OnDamage()
+    {
+        if (_isDamaged)
+        {
+            return;
+        }
+        StartCoroutine(DamageCoroutine());
     }
     #endregion
 
@@ -154,6 +169,10 @@ public partial class PlayerModel : MonoBehaviour
         {
             OnBoost(15, 5);
         }
+        else if (Input.GetKeyDown(KeyCode.H))
+        {
+            OnDamage();
+        }
     }
     #endregion
 
@@ -163,7 +182,7 @@ public partial class PlayerModel : MonoBehaviour
         var originSpeed = _currentMoveSpeed;
         var moveSpeed = _currentMoveSpeed + boostAmount;
 
-        DOTween.To(() => 
+        DOTween.To(() =>
                _currentMoveSpeed,
                x => _currentMoveSpeed = x,
                moveSpeed,
@@ -178,6 +197,18 @@ public partial class PlayerModel : MonoBehaviour
                originSpeed,
                0.5f)
                .WaitForCompletion();
+    }
+
+    private IEnumerator DamageCoroutine()
+    {
+        _isDamaged = true;
+        _rb.velocity = Vector2.zero;
+
+        yield return _playerModelTrans.DOLocalRotate(new Vector3(0f, _playerModelTrans.localRotation.y + 720f, 0f),
+                                                    1.0f, RotateMode.FastBeyond360)
+                                                    .SetEase(Ease.Linear)
+                                                    .WaitForCompletion();
+        _isDamaged = false;
     }
     #endregion
 }

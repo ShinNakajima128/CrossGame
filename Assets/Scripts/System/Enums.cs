@@ -45,3 +45,30 @@ public enum ObstacleType
     Train,
     Box,
 }
+public enum ItemType
+{
+    Boost,
+    Infiltrator,
+    /// <summary>
+    /// –³“G
+    /// </summary>
+    Invincible
+}
+
+public enum GeneratePointType
+{
+    Left,
+    Right
+}
+
+public enum BGMType
+{
+    /// <summary> ƒ^ƒCƒgƒ‹‰æ–Ê </summary>
+    Title,
+    InGame,
+    Result
+}
+public enum SEType
+{
+
+}
