@@ -55,7 +55,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 231032607462332923}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -45}
+  m_LocalPosition: {x: 0, y: 0, z: -50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -86,7 +86,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336248738242485138}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1114,7 +1114,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4782861976708096309}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 15}
+  m_LocalPosition: {x: 0, y: 0, z: 25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1486,7 +1486,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6353344769716186705}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 35}
+  m_LocalPosition: {x: 0, y: 0, z: 50}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1541,7 +1541,7 @@ GameObject:
   - component: {fileID: 7779518646821985239}
   - component: {fileID: 2777628717635636669}
   - component: {fileID: 8070951761299304105}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: GenerateArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1682,7 +1682,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7086654801674458754}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 55}
+  m_LocalPosition: {x: 0, y: 0, z: 75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1704,7 +1704,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2727639963268345025
 Transform:
   m_ObjectHideFlags: 0
@@ -1870,7 +1870,6 @@ MonoBehaviour:
   - {fileID: 4832588017402499209}
   - {fileID: 6032792627103714184}
   - {fileID: 5113005767161923706}
-  - {fileID: 2727639963268345025}
   _obstacleParent: {fileID: 7704792847030181062}
 --- !u!114 &1465716453289620926
 MonoBehaviour:
@@ -1884,24 +1883,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49f2123a20c124c4498c036533985968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _generateInterval: 2
+  _generateInterval: 1.5
   _movingCars:
-  - {fileID: 1220109061593607075, guid: e1d32747d09c9db4ebaeb409cbf1a9d1, type: 3}
-  - {fileID: 3592177867728365202, guid: fc9e91eb22879f84eac056473c581b5b, type: 3}
-  - {fileID: 800097039903430001, guid: 8b8dfbf784f51fe488952ff9b6004d4a, type: 3}
-  - {fileID: 6721311052883881255, guid: f59b89dd3a405be4f8c5d373aa147948, type: 3}
-  - {fileID: 816428196210802057, guid: 5f791b112f181e74784456343b4aa5ec, type: 3}
-  - {fileID: 2035264757950506384, guid: 88de85f09c1e22846aea38938bc9fabf, type: 3}
-  - {fileID: 4304101046722780987, guid: e19078d0cac14bf47a4b41dd8b21442d, type: 3}
-  - {fileID: 4122504736164611588, guid: 9dce1e39a16300c449250e82a5c0de0e, type: 3}
-  - {fileID: 4919208424876126901, guid: 435ae831f8edd784ebf701f5cfb58d60, type: 3}
-  - {fileID: 7235495544061757970, guid: 3579b6a191a6262488eca857742b994d, type: 3}
-  - {fileID: 2915879132325717256, guid: 87f15e00bc7d0a54d851c964bd63b8ef, type: 3}
-  - {fileID: 1412363122834768907, guid: c2950abe12173684f8fb76d8cd3ed1b3, type: 3}
-  - {fileID: 2102204373591914974, guid: c113180fba5d60d419f8e84af96f8306, type: 3}
-  - {fileID: 6419671262868507204, guid: 0364cb90f8382f840bcbb80c4970ccae, type: 3}
-  - {fileID: 6535629527075169941, guid: b657a93bfb7890a4fa57df6180dc08cb, type: 3}
-  - {fileID: 1280414521145918320, guid: c46b09b837db5d546890e409caf769e6, type: 3}
+  - {fileID: 1077303767652153805, guid: e1d32747d09c9db4ebaeb409cbf1a9d1, type: 3}
+  - {fileID: -5791525515915179618, guid: fc9e91eb22879f84eac056473c581b5b, type: 3}
+  - {fileID: -4926442380297067672, guid: 8b8dfbf784f51fe488952ff9b6004d4a, type: 3}
+  - {fileID: -1636611461624959179, guid: f59b89dd3a405be4f8c5d373aa147948, type: 3}
+  - {fileID: 2032962765710397714, guid: 5f791b112f181e74784456343b4aa5ec, type: 3}
+  - {fileID: 9190927794551087185, guid: 88de85f09c1e22846aea38938bc9fabf, type: 3}
+  - {fileID: -6206377745923520629, guid: e19078d0cac14bf47a4b41dd8b21442d, type: 3}
+  - {fileID: -7825105181368702004, guid: 9dce1e39a16300c449250e82a5c0de0e, type: 3}
+  - {fileID: -1355728066012465560, guid: 435ae831f8edd784ebf701f5cfb58d60, type: 3}
+  - {fileID: 5696385224239817478, guid: 3579b6a191a6262488eca857742b994d, type: 3}
+  - {fileID: 5290079181492443619, guid: 87f15e00bc7d0a54d851c964bd63b8ef, type: 3}
+  - {fileID: -49371382162961597, guid: c2950abe12173684f8fb76d8cd3ed1b3, type: 3}
+  - {fileID: -3094729455167273361, guid: c113180fba5d60d419f8e84af96f8306, type: 3}
+  - {fileID: 7161236722545440259, guid: 0364cb90f8382f840bcbb80c4970ccae, type: 3}
+  - {fileID: 1704355405917785644, guid: b657a93bfb7890a4fa57df6180dc08cb, type: 3}
+  - {fileID: 7231046192237083931, guid: c46b09b837db5d546890e409caf769e6, type: 3}
   _leftGeneratePoints:
   - {fileID: 8849077625781379241}
   - {fileID: 6324518797804281135}
@@ -1910,6 +1909,7 @@ MonoBehaviour:
   - {fileID: 8971863231125501209}
   - {fileID: 3501216742288166501}
   - {fileID: 4559311748250964939}
+  _carsParent: {fileID: 7704792847030181062}
   _generateArea: {fileID: 8070951761299304105}
 --- !u!1 &7918774505060882082
 GameObject:

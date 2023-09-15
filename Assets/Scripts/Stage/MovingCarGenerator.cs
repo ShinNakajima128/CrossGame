@@ -13,9 +13,6 @@ public class MovingCarGenerator : MonoBehaviour
     private float _generateInterval = 1.0f;
 
     [SerializeField]
-    private GameObject[] _movingCars = default;
-
-    [SerializeField]
     private Transform[] _leftGeneratePoints = default;
 
     [SerializeField]
@@ -28,6 +25,7 @@ public class MovingCarGenerator : MonoBehaviour
     #region private
     private GeneratePointType _pointType = default;
     private bool _isGenerating = false;
+    
     #endregion
 
     #region Constant
@@ -38,11 +36,6 @@ public class MovingCarGenerator : MonoBehaviour
     #endregion
 
     #region unity methods
-    private void Awake()
-    {
-
-    }
-
     private void Start()
     {
         _generateArea.IsInAreaObserver
@@ -78,9 +71,13 @@ public class MovingCarGenerator : MonoBehaviour
         while (_isGenerating)
         {
             int randomPointIndex = Random.Range(0, POINT_LENGTH);
-            int randomCarIndex = Random.Range(0, _movingCars.Length);
-            var car = Instantiate(_movingCars[randomCarIndex], transform);
-            car.AddComponent<Obstacle.MovingCar>();
+
+            var car = StageManager.Instance.RentRandomMovingCar();
+            //var car = Instantiate(_movingCars[randomCarIndex], transform);
+            if (!car.GetComponent<MovingCar>())
+            {
+                car.gameObject.AddComponent<MovingCar>();
+            }
 
             switch (_pointType)
             {
