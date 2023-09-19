@@ -20,6 +20,9 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     [SerializeField, Range(0f, 1f)]
     float _seVolume = 1.0f;
 
+    [SerializeField, Range(0f, 1f)]
+    float _environmentVolume = 1f;
+
     [Header("AudioSourceの生成数")]
     [Tooltip("SEのAudioSourceの生成数")]
     [SerializeField]
@@ -45,12 +48,15 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     [SerializeField]
     Transform _seSourcesParent = default;
 
+    [Tooltip("環境音用のAudioSource")]
+    [SerializeField]
+    AudioSource _environmentSource = default;
+
     [Tooltip("AudioMixer")]
     [SerializeField]
     AudioMixer _mixer = default;
 
     List<AudioSource> _seAudioSourceList = new List<AudioSource>();
-    List<AudioSource> _voiceAudioSourceList = new List<AudioSource>();
     bool _isStoping = false;
 
     #region Volume Property
@@ -143,6 +149,24 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
             Debug.LogError($"SE:{type}を再生できませんでした");
         }
     }
+
+    /// <summary>
+    /// BGMを再生
+    /// </summary>
+    /// <param name="type"> BGMの種類 </param>
+    public static void ChangePlayEnviroment(bool isPlaying)
+    {
+        if (isPlaying)
+        {
+            Instance._environmentSource.volume = Instance._environmentVolume * Instance._masterVolume;
+            Instance._environmentSource.Play();
+        }
+        else
+        {
+            Instance._environmentSource.Stop();
+        }
+        
+    }
     #endregion
 
     #region stop method
@@ -174,18 +198,8 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
             s.clip = null;
         }
     }
-    /// <summary>
-    /// 再生中のボイスを停止する
-    /// </summary>
-    public void StopVOICE()
-    {
-        foreach (var s in Instance._voiceAudioSourceList)
-        {
-            s.Stop();
-            s.clip = null;
-        }
-    }
     #endregion
+    
     #region volume Method
     /// <summary>
     /// マスター音量を変更する
