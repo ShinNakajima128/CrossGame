@@ -44,6 +44,7 @@ public enum ObstacleType
     Car_Bus,
     Train,
     Box,
+    Barricade
 }
 public enum ItemType
 {
@@ -70,5 +71,31 @@ public enum BGMType
 }
 public enum SEType
 {
+    Title_GameStart,
+    InGame_CarHorn,
+    Crash,
+    CountDown,
+    Damage_Player
+}
+public enum StageLevel
+{
+    Easy,
+    Normal,
+    Hard
+}
+public enum HitchHikerType
+{
+    Female_G,
+}
+public enum HitchhikerState
+{
+    Idle,
+    Dancing,
+    BlowOff
+}
 
+public enum CameraType
+{
+    Title,
+    InGame
 }
