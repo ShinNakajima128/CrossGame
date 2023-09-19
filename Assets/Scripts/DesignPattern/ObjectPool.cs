@@ -7,7 +7,7 @@ using UniRx;
 /// <summary>
 /// オブジェクトを再利用する機能をもつクラス
 /// </summary>
-public class ObjectPool<T> where T : Object
+public class ObjectPool<T> where T : MonoBehaviour
 {
     #region property
     #endregion
@@ -55,7 +55,9 @@ public class ObjectPool<T> where T : Object
         if (_pool.Count > 0)
         {
             //Debug.Log($"Queueから取り出した");
-            return _pool.Dequeue();
+            var obj = _pool.Dequeue();
+            obj.gameObject.SetActive(true);
+            return obj;
         }
         else
         {
@@ -78,7 +80,7 @@ public class ObjectPool<T> where T : Object
                  .Subscribe(_ =>
                  {
                      _pool.Enqueue(obj);
-                     //Debug.Log("poolに帰還");
+                     Debug.Log("poolに帰還");
                  });
 
                 //使用中のオブジェクトを全てプールに戻すための処理を登録
