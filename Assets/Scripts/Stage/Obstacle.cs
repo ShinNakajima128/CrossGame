@@ -8,10 +8,10 @@ using DG.Tweening;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
-public class Obstacle : MonoBehaviour, IPoolable
+public partial class Obstacle : MonoBehaviour, IPoolable
 {
     #region property
-    public IObservable<Unit> InactiveObserver => throw new NotImplementedException();
+    public IObservable<Unit> InactiveObserver => _inactiveSubject;
     #endregion
 
     #region serialize
@@ -45,12 +45,25 @@ public class Obstacle : MonoBehaviour, IPoolable
             .Where(x => x.gameObject.CompareTag(GameTag.Player))
             .Subscribe(x =>
             {
-                if (!_isVanished)
+                if (_data.IsImmortaled)
+                {   
+                    AudioManager.PlaySE(SEType.Crash);
+                }
+                else
                 {
-                    OnVanish();
-                    _isVanished = true;
+                    if (!_isVanished)
+                    {
+                        OnVanish();
+                        AudioManager.PlaySE(SEType.Crash);
+                        _isVanished = true;
+                    }
                 }
             });
+    }
+
+    private void OnDisable()
+    {
+        ReturnPool();
     }
     #endregion
 
@@ -75,15 +88,17 @@ public class Obstacle : MonoBehaviour, IPoolable
 
         float ditherAmount = 1.0f;
 
-        DOTween.To(() =>
-                ditherAmount,
-                x => ditherAmount = x,
-                0f,
-                1.5f)
-               .OnUpdate(() =>
-               {
-                   _obstacleRenderer.material.SetFloat("_Opacity", ditherAmount);
-               });
+        yield return DOTween.To(() =>
+                     ditherAmount,
+                     x => ditherAmount = x,
+                     0f,
+                     1.5f)
+                     .OnUpdate(() =>
+                     {
+                         _obstacleRenderer.material.SetFloat("_Opacity", ditherAmount);
+                     })
+                     .WaitForCompletion();
+        gameObject.SetActive(false);
     }
     #endregion
 }

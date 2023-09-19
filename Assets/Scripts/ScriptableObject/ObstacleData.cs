@@ -9,6 +9,7 @@ public class ObstacleData : ScriptableObject
     #region property
     public ObstacleType Type => _type;
     public int Score => _score;
+    public bool IsImmortaled => _isImmortaled;
     #endregion
 
     #region serialize
@@ -20,6 +21,9 @@ public class ObstacleData : ScriptableObject
 
     [SerializeField]
     private int _score = 100;
+
+    [SerializeField]
+    private bool _isImmortaled = false;
     #endregion
 
     #region private
@@ -39,7 +43,7 @@ public class ObstacleData : ScriptableObject
 
     #region private method
     #endregion
-    
+
     #region coroutine method
     #endregion
 }

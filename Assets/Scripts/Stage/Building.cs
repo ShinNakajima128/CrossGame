@@ -41,11 +41,3 @@ public class Building : MonoBehaviour
     #region coroutine method
     #endregion
 }
-
-public enum BuildingType
-{
-    Building1,
-    Building2,
-    Building3,
-    Building4,
-}

@@ -14,7 +14,6 @@ public interface IDamagable
     /// ダメージを受ける
     /// </summary>
     /// <param name="amount">ダメージ量</param>
-    void Damage(float amount);
-    void Knockback(Transform other);
+    void Damage();
     #endregion
 }
