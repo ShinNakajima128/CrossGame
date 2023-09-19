@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,9 +9,11 @@ using DG.Tweening;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
-public partial class PlayerModel : MonoBehaviour
+public partial class PlayerModel : MonoBehaviour, IDamagable
 {
     #region property
+    public IObservable<Unit> DamageObserber => _damageSubject;
+    public bool IsInvincible => _isInvincibled;
     #endregion
 
     #region serialize
@@ -28,11 +31,17 @@ public partial class PlayerModel : MonoBehaviour
     private float _maxSpeed = 20f;
 
     [SerializeField]
+    private float _afterDamageInvincibleTime = 2.0f;
+
+    [SerializeField]
     private Transform _playerModelTrans = default;
 
     [Header("各ステータス時のモデルの色")]
     [SerializeField]
     private Color _slowStateColor = Color.black;
+
+    [SerializeField]
+    private Transform _explosionPoint = default;
     #endregion
 
     #region private
@@ -42,18 +51,21 @@ public partial class PlayerModel : MonoBehaviour
 
     private Vector2 _inputAxis;
     private float _currentMoveSpeed;
+    private bool _isCanOperate = false;
     private bool _isDamaged = false;
     private bool _isInvincibled = false;
 
     private Renderer _playerModelRenderer;
     private Coroutine _boostCoroutine;
     private Coroutine _damageCoroutine;
+
     #endregion
 
     #region Constant
     #endregion
 
     #region Event
+    private Subject<Unit> _damageSubject = new Subject<Unit>();
     #endregion
 
     #region unity methods
@@ -69,8 +81,16 @@ public partial class PlayerModel : MonoBehaviour
 
     private void Start()
     {
+        GameManager.Instance.IsInGameObserver
+                            .TakeUntilDestroy(this)
+                            .Subscribe(value =>
+                            {
+                                _isCanOperate = value;
+                            });
+
         this.UpdateAsObservable()
             .TakeUntilDestroy(this)
+            .Where(_ => _isCanOperate)
             .Subscribe(_ =>
             {
                 if (!_isDamaged)
@@ -107,13 +127,19 @@ public partial class PlayerModel : MonoBehaviour
         _boostCoroutine = StartCoroutine(BoostCoroutine(boostAmount, boostTime));
     }
 
-    public void OnDamage()
+    public void Damage()
     {
         if (_isDamaged)
         {
             return;
         }
-        StartCoroutine(DamageCoroutine());
+        _damageCoroutine = StartCoroutine(DamageCoroutine());
+        AudioManager.PlaySE(SEType.Damage_Player);
+    }
+
+    public void ChangeIsCanOperation(bool value)
+    {
+        _isCanOperate = value;
     }
     #endregion
 
@@ -171,7 +197,7 @@ public partial class PlayerModel : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.H))
         {
-            OnDamage();
+            Damage();
         }
     }
     #endregion
@@ -203,12 +229,22 @@ public partial class PlayerModel : MonoBehaviour
     {
         _isDamaged = true;
         _rb.velocity = Vector2.zero;
+        _currentMoveSpeed = _moveSpeed;
+        _damageSubject.OnNext(Unit.Default);
 
         yield return _playerModelTrans.DOLocalRotate(new Vector3(0f, _playerModelTrans.localRotation.y + 720f, 0f),
                                                     1.0f, RotateMode.FastBeyond360)
                                                     .SetEase(Ease.Linear)
                                                     .WaitForCompletion();
+        Debug.Log("ダメージ後無敵時間");
         _isDamaged = false;
+        _isInvincibled = true;
+        _status.ChangeTransparency(this, 0.5f);
+
+        yield return new WaitForSeconds(_afterDamageInvincibleTime);
+
+        _status.ChangeTransparency(this, 1f);
+        _isInvincibled = false;
     }
     #endregion
 }

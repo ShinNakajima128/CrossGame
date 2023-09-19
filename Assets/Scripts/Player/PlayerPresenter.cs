@@ -33,7 +33,12 @@ public class PlayerPresenter : MonoBehaviour
 
     private void Start()
     {
-
+        GameManager.Instance.IsInGameObserver
+                            .TakeUntilDestroy(this)
+                            .Subscribe(value => _model.ChangeIsCanOperation(value));
+        _model.DamageObserber
+              .TakeUntilDestroy(this)
+              .Subscribe(_ => GameManager.Instance.OnPlayerDamage());
     }
     #endregion
 

@@ -13,6 +13,7 @@ public partial class PlayerModel : MonoBehaviour
         #region private
         private int _currentHP;
         private PlayerState _currentState;
+        private int _currentHitchhikerAmount = 0;
         #endregion
 
         #region Constant
@@ -34,6 +35,7 @@ public partial class PlayerModel : MonoBehaviour
                 _currentState != PlayerState.Invincible)
             {
                 _currentHP -= damageAmount;
+                _currentHitchhikerAmount = 0;
 
                 if (_currentHP <= 0)
                 {
@@ -59,7 +61,7 @@ public partial class PlayerModel : MonoBehaviour
                     break;
                 case PlayerState.Infiltrator:
                     model.gameObject.layer = 6;
-                    model._playerModelRenderer.material.SetFloat("_Opacity", 1f);
+                    ChangeTransparency(model, 1f);
                     break;
                 case PlayerState.Invincible:
                     break;
@@ -79,7 +81,7 @@ public partial class PlayerModel : MonoBehaviour
                     break;
                 case PlayerState.Infiltrator:
                     model.gameObject.layer = 13; //Layer‚Ìu13v‚ÉŠ„‚è“–‚Ä‚Ä‚¢‚é“§‰ßó‘Ô‚É•ÏX‚·‚é
-                    model._playerModelRenderer.material.SetFloat("_Opacity", 0.3f);
+                    ChangeTransparency(model, 0.3f);
                     break;
                 case PlayerState.Invincible:
                     break;
@@ -88,9 +90,22 @@ public partial class PlayerModel : MonoBehaviour
             }
             _currentState = newState;
         }
+
+        public void ChangeTransparency(PlayerModel model, float amount)
+        {
+            model._playerModelRenderer.material.SetFloat("_Opacity", amount);
+        }
+
+        public void ChangeHitchhikerNum(PlayerModel model, int amount)
+        {
+            _currentHitchhikerAmount += amount;
+            model._currentMoveSpeed += model._moveSpeed * 1.1f;
+        }
+
         public void ResetStatus(int maxHP)
         {
             _currentHP = maxHP;
+            _currentHitchhikerAmount = 0;
         }
         #endregion
 
