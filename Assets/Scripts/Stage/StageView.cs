@@ -7,45 +7,19 @@ using UniRx;
 
 public class StageView : MonoBehaviour
 {
-    #region property
-    #endregion
-
     #region serialize
     [SerializeField]
     private TextMeshProUGUI _distanceTMP = default;
     #endregion
 
-    #region private
-    #endregion
-
-    #region Constant
-    #endregion
-
-    #region Event
-    #endregion
-
-    #region unity methods
-    private void Awake()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
-    #endregion
-
     #region public method
     public void DistanceView(float currentDistance)
     {
-        _distanceTMP.text = currentDistance.ToString();
+        _distanceTMP.text = $"ÉSÅ[ÉãÇ‹Ç≈\n{currentDistance.ToString("F0")}m";
     }
-    #endregion
-
-    #region private method
-    #endregion
-    
-    #region coroutine method
+    public void ResetView()
+    {
+        _distanceTMP.text = "";
+    }
     #endregion
 }
