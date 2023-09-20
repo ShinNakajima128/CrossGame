@@ -6,9 +6,13 @@ using UniRx;
 public class Hitchhiker : MonoBehaviour
 {
     #region property
+    public HitchhikerType HitchhikerType => _hitchHikerType;
     #endregion
 
     #region serialize
+    [SerializeField]
+    private HitchhikerType _hitchHikerType = default;
+
     [SerializeField]
     private bool _debugMode = false;
 

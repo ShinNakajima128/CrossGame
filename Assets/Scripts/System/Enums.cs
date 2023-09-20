@@ -83,7 +83,7 @@ public enum StageLevel
     Normal,
     Hard
 }
-public enum HitchHikerType
+public enum HitchhikerType
 {
     Female_G,
 }
