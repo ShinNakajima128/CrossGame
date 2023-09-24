@@ -6,6 +6,9 @@ using UniRx;
 using UniRx.Triggers;
 using DG.Tweening;
 
+/// <summary>
+/// 障害物全般の機能を持つコンポーネント
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 public partial class Obstacle : MonoBehaviour, IPoolable

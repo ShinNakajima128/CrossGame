@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - FxTemporaire
+  - Item
   layers:
   - Default
   - TransparentFX
@@ -20,9 +22,9 @@ TagManager:
   - Baggage
   - Player(Infiltrator)
   - CrossroadArea
-  - 
-  - 
-  - 
+  - Item
+  - Barricade
+  - BoardingArea
   - 
   - 
   - 

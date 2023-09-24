@@ -4,6 +4,9 @@ using UnityEngine;
 using UniRx;
 using UniRx.Triggers;
 
+/// <summary>
+/// 移動する障害物(車)の機能を持つコンポーネント
+/// </summary>
 public class MovingCar : MonoBehaviour
 {
     #region property
@@ -15,7 +18,6 @@ public class MovingCar : MonoBehaviour
     #region private
     private float _moveSpeed = 20.0f;
     private Rigidbody _rb;
-    private Obstacle _obstacle;
     private Collider _collider;
 
     private bool _isCrashed = false;
@@ -31,7 +33,6 @@ public class MovingCar : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        _obstacle = GetComponent<Obstacle>();
         _collider = GetComponent<Collider>();
 
         _rb.useGravity = false;
