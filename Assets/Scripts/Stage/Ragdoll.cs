@@ -4,13 +4,17 @@ using UnityEngine;
 using UniRx;
 using System;
 
+/// <summary>
+/// プレイヤーがダメージを受けた際に使用するラグドールの機能を持つコンポーネント
+/// </summary>
 public class Ragdoll : MonoBehaviour, IPoolable
 {
-    public IObservable<Unit> InactiveObserver => throw new NotImplementedException();
+    public IObservable<Unit> InactiveObserver => _inactiveSubject;
     #region property
     #endregion
 
     #region serialize
+    [Tooltip("出現してから消えるまでの時間")]
     [SerializeField]
     private float _intctiveTime = 5.0f;
     #endregion

@@ -4,11 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
+/// <summary>
+/// ヒッチハイカー関連の処理を管理するManager
+/// </summary>
 public class HitchhikerManager : MonoBehaviour
 {
     #region property
     public static HitchhikerManager Instance { get; private set; }
     public int CurrentHitchhikerAmount => _onHitchhikersList.Count;
+    public int MaxHitchhikerNum => MAX_HITCHHIKER_NUM;
     #endregion
 
     #region serialize
@@ -98,6 +102,7 @@ public class HitchhikerManager : MonoBehaviour
             var type = _onHitchhikersList[i].HitchhikerType;
             var ragdoll = _ragdollsPoolDic[type].Rent();
             ragdoll.transform.position = _generateHitchhikerPoint[i].position;
+            _onHitchhikersList[i].gameObject.SetActive(false);
         }
         _rb_explosionPoint.AddExplosionForce(_blowoffForceAmount, _explosionPoint.position, _blowoffRadius);
     }
