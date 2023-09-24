@@ -14,6 +14,7 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
     #region property
     public IObservable<Unit> DamageObserber => _damageSubject;
     public bool IsInvincible => _isInvincibled;
+    public PlayerStatus Status => _status;
     #endregion
 
     #region serialize
@@ -73,7 +74,7 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
     {
         _input = GetComponent<PlayerInput>();
         _rb = GetComponent<Rigidbody>();
-        _status = new PlayerStatus(_maxHP);
+        _status = new PlayerStatus();
 
         _playerModelRenderer = _playerModelTrans.gameObject.GetComponent<Renderer>();
         _currentMoveSpeed = _moveSpeed;
@@ -81,13 +82,6 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
 
     private void Start()
     {
-        GameManager.Instance.IsInGameObserver
-                            .TakeUntilDestroy(this)
-                            .Subscribe(value =>
-                            {
-                                _isCanOperate = value;
-                            });
-
         this.UpdateAsObservable()
             .TakeUntilDestroy(this)
             .Where(_ => _isCanOperate)
@@ -115,6 +109,11 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
     #endregion
 
     #region public method
+    /// <summary>
+    /// 加速する
+    /// </summary>
+    /// <param name="boostAmount">加速する値</param>
+    /// <param name="boostTime">加速している時間</param>
     public void OnBoost(float boostAmount, float boostTime)
     {
         if (_boostCoroutine != null)
@@ -127,16 +126,25 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
         _boostCoroutine = StartCoroutine(BoostCoroutine(boostAmount, boostTime));
     }
 
+    /// <summary>
+    /// ダメージを受ける
+    /// </summary>
     public void Damage()
     {
-        if (_isDamaged)
+        if (_isDamaged || _status.CurrentState == PlayerState.Invincible || _status.CurrentState == PlayerState.Infiltrator)
         {
             return;
         }
         _damageCoroutine = StartCoroutine(DamageCoroutine());
         AudioManager.PlaySE(SEType.Damage_Player);
     }
-
+    /// <summary>
+    /// 障害物を通過したコンボ数を増やす
+    /// </summary>
+    public void AddCombo()
+    {
+        _status.AddComboNum();
+    }
     public void ChangeIsCanOperation(bool value)
     {
         _isCanOperate = value;
@@ -153,6 +161,11 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
         else
         {
             _rb.velocity = Vector2.zero;
+        }
+
+        if (_input.actions["Throttle"].WasPressedThisFrame())
+        {
+            AudioManager.PlaySE(SEType.Accel);
         }
     }
     private void SetDirection(Vector2 dir)

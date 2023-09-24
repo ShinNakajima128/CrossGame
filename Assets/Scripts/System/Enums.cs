@@ -75,7 +75,9 @@ public enum SEType
     InGame_CarHorn,
     Crash,
     CountDown,
-    Damage_Player
+    Damage_Player,
+    Accel,
+    Boost
 }
 public enum StageLevel
 {
@@ -86,6 +88,7 @@ public enum StageLevel
 public enum HitchhikerType
 {
     Female_G,
+    MAX_NUM
 }
 public enum HitchhikerState
 {

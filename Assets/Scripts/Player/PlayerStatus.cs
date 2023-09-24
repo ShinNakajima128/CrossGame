@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,10 +9,12 @@ public partial class PlayerModel : MonoBehaviour
     public class PlayerStatus
     {
         #region property
+        public IObservable<int> CurrentComboObserver => _currentComboAmountRP;
+        public PlayerState CurrentState => _currentState;
+        public int CurrentComboAmount => _currentComboAmountRP.Value;
         #endregion
 
         #region private
-        private int _currentHP;
         private PlayerState _currentState;
         private int _currentHitchhikerAmount = 0;
         #endregion
@@ -20,28 +23,20 @@ public partial class PlayerModel : MonoBehaviour
         #endregion
 
         #region Event
+        private ReactiveProperty<int> _currentComboAmountRP = new ReactiveProperty<int>();
         #endregion
 
         #region public method
-        public PlayerStatus(int maxHP)
+        public PlayerStatus()
         {
-            _currentHP = maxHP;
             _currentState = PlayerState.Normal;
         }
-        public void Damage(int damageAmount)
+        /// <summary>
+        /// コンボ数を増加する
+        /// </summary>
+        public void AddComboNum()
         {
-            //すり抜け状態または無敵状態ではない場合はダメージを受ける
-            if (_currentState != PlayerState.Infiltrator ||
-                _currentState != PlayerState.Invincible)
-            {
-                _currentHP -= damageAmount;
-                _currentHitchhikerAmount = 0;
-
-                if (_currentHP <= 0)
-                {
-                    GameManager.Instance.OnGameEnd();
-                }
-            }
+            _currentComboAmountRP.Value++;
         }
 
         public void ChangeState(PlayerModel model, PlayerState newState)
@@ -102,10 +97,13 @@ public partial class PlayerModel : MonoBehaviour
             model._currentMoveSpeed += model._moveSpeed * 1.1f;
         }
 
-        public void ResetStatus(int maxHP)
+        public void ResetStatus()
         {
-            _currentHP = maxHP;
             _currentHitchhikerAmount = 0;
+        }
+        public void ResetCombo()
+        {
+            _currentComboAmountRP.Value = 0;
         }
         #endregion
 

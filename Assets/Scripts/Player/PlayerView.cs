@@ -1,54 +1,46 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 using UniRx;
 
+/// <summary>
+/// プレイヤーの情報をUIに表示する機能を持つコンポーネント
+/// </summary>
 public class PlayerView : MonoBehaviour
 {
-    #region property
-    #endregion
-
     #region serialize
     [SerializeField]
     private TextMeshProUGUI _scoreTMP = default;
 
     [SerializeField]
-    private Image _hpImage = default;
-    #endregion
-
-    #region private
-    #endregion
-
-    #region Constant
-    #endregion
-
-    #region Event
-    #endregion
-
-    #region unity methods
-    private void Awake()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
+    private TextMeshProUGUI _comboTMP = default;
     #endregion
 
     #region public method
+    /// <summary>
+    /// スコアを更新する
+    /// </summary>
+    /// <param name="score">現在スコアの値</param>
     public void UpdateScoreView(float score)
     {
         _scoreTMP.text = $"Score : {score}";
     }
-    #endregion
 
-    #region private method
-    #endregion
-    
-    #region coroutine method
+    /// <summary>
+    /// コンボ数を更新する
+    /// </summary>
+    /// <param name="combo">現在のコンボ数</param>
+    public void UpdateComboView(int combo)
+    {
+        if (combo > 0)
+        {
+            _comboTMP.text = $"{combo}Combo!!";
+        }
+        else
+        {
+            _comboTMP.text = "";
+        }
+    }
     #endregion
 }
