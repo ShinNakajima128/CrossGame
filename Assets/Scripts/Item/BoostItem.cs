@@ -26,21 +26,13 @@ public class BoostItem : ItemBase
     #endregion
 
     #region unity methods
-    private void Awake()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
     #endregion
 
     #region public method
     public override void Use(PlayerModel model)
     {
         model.OnBoost(_boostAmount, _boostTime);
+        AudioManager.PlaySE(SEType.Boost);
     }
     #endregion
 
