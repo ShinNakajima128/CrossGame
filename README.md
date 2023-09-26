@@ -8,9 +8,13 @@
 
 ## 適用したデザインパターン
 ・Singleton
+
 ・State
+
 ・ObjectPool
+
 ・Observer
+
 ・MVP(Model-View-Presenter)
 
 ## ゲームの説明
