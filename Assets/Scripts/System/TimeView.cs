@@ -14,10 +14,12 @@ public class TimeView : MonoBehaviour
     private TextMeshProUGUI _countDownTMP = default;
 
     [SerializeField]
-    private TextMeshProUGUI _limitTimeTMP = default;
+    private TextMeshProUGUI _progressTimeTMP = default;
     #endregion
 
     #region private
+    private int _currentMinuteAmount = 0;
+    private int _currentSecondAmount = 0;
     #endregion
 
     #region Constant
@@ -27,15 +29,6 @@ public class TimeView : MonoBehaviour
     #endregion
 
     #region unity methods
-    private void Awake()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
     #endregion
 
     #region public method
@@ -43,9 +36,9 @@ public class TimeView : MonoBehaviour
     {
         _countDownTMP.text = value;
     }
-    public void LimitTimeView(string value)
+    public void ProgressTimeView(float value)
     {
-        _limitTimeTMP.text = value;
+        _progressTimeTMP.text = $"{((int)value / 60).ToString().PadLeft(2, '0')}:{((int)value % 60).ToString().PadLeft(2, '0')}:{((value - Mathf.FloorToInt(value)) * 100).ToString("F0").PadLeft(2, '0')}";
     }
     #endregion
 

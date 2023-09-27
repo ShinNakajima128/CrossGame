@@ -7,6 +7,7 @@ public class TimeManager : MonoBehaviour
 {
     #region property
     public static TimeManager Instance { get; private set; }
+    public float CurrentProgressTime => _currentProgressTime.Value;
     #endregion
 
     #region serialize
@@ -14,7 +15,7 @@ public class TimeManager : MonoBehaviour
     private int _countDownTime = 3;
 
     [SerializeField]
-    private int _limitTime = 60;
+    private int _limitTime = 300;
 
     [SerializeField]
     private TimeView _timeView = default;
@@ -28,7 +29,7 @@ public class TimeManager : MonoBehaviour
     #endregion
 
     #region Event
-    private ReactiveProperty<int> _currentLimitTime = new ReactiveProperty<int>();
+    private ReactiveProperty<float> _currentProgressTime = new ReactiveProperty<float>();
     #endregion
 
     #region unity methods
@@ -51,8 +52,8 @@ public class TimeManager : MonoBehaviour
                             .TakeUntilDestroy(this)
                             .Subscribe(_ => Initialize());
 
-        _currentLimitTime.TakeUntilDestroy(this)
-                         .Subscribe(value => _timeView.LimitTimeView(value.ToString()));
+        _currentProgressTime.TakeUntilDestroy(this)
+                            .Subscribe(value => _timeView.ProgressTimeView(value));
     }
     #endregion
 
@@ -67,7 +68,7 @@ public class TimeManager : MonoBehaviour
     private void Initialize()
     {
         _timeView.CountDownView("");
-        _timeView.LimitTimeView("");
+        _timeView.ProgressTimeView(0);
     }
     #endregion
 
@@ -86,7 +87,7 @@ public class TimeManager : MonoBehaviour
 
         _timeView.CountDownView("Start!");
         GameManager.Instance.OnChangeIsInGame(true);
-        _currentLimitTime.Value = _limitTime;
+        _currentProgressTime.Value = 0;
         StartCoroutine(LimitTimeCoroutine());
 
         yield return new WaitForSeconds(1.0f);
@@ -99,8 +100,8 @@ public class TimeManager : MonoBehaviour
     {
         while (_isInGame)
         {
-            yield return new WaitForSeconds(1.0f);
-            _currentLimitTime.Value--;
+            _currentProgressTime.Value += Time.deltaTime;
+            yield return null; 
         }
     }
     #endregion
