@@ -50,10 +50,6 @@ public enum ItemType
 {
     Boost,
     Infiltrator,
-    /// <summary>
-    /// –³“G
-    /// </summary>
-    Invincible
 }
 
 public enum GeneratePointType
@@ -77,8 +73,25 @@ public enum SEType
     CountDown,
     Damage_Player,
     Accel,
-    Boost
+    Boost,
+    Result_TextView,
+    Result_TotalScoreView,
+    Scream_Type1,
+    Scream_Type2,
+    Scream_Type3,
+    Scream_Type4,
+    Scream_Type5,
+    HitchhikersRide_Type1,
+    HitchhikersRide_Type2,
+    HitchhikersRide_Type3,
+    HitchhikersRide_Type4,
+    HitchhikersRide_Type5,
+    Slow_Player,
+    Goal,
+    Infiltrator,
+    BackToNormalState
 }
+
 public enum StageLevel
 {
     Easy,
@@ -88,6 +101,10 @@ public enum StageLevel
 public enum HitchhikerType
 {
     Female_G,
+    Elder_Female_G,
+    Male_G,
+    Male_K,
+    Little_Boy,
     MAX_NUM
 }
 public enum HitchhikerState
@@ -101,4 +118,10 @@ public enum CameraType
 {
     Title,
     InGame
+}
+
+public enum ResultButtonType
+{
+    Retry,
+    Title
 }
