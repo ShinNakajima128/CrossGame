@@ -23,8 +23,8 @@ public class ItemGenerator : MonoBehaviour
     #endregion
 
     #region Constant
-    private const int STAGE_DEPTH = 60;
-    private const int STAGE_WIDTH = 5;
+    private const int STAGE_DEPTH = 50;
+    private const int STAGE_WIDTH = 4;
     #endregion
 
     #region Event
@@ -80,7 +80,7 @@ public class ItemGenerator : MonoBehaviour
             int depth = Random.Range(-STAGE_DEPTH, STAGE_DEPTH);
             int width = Random.Range(-STAGE_WIDTH, STAGE_WIDTH);
 
-            item.transform.position = new Vector3(transform.position.x + width, transform.position.y, transform.position.z + depth);
+            item.transform.position = new Vector3(transform.position.x + width, 1f, transform.position.z + depth);
             //_alreadyGenerateIndexList.Add(randomIndex);
         }
         _init = true;

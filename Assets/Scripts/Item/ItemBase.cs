@@ -40,7 +40,7 @@ public abstract class ItemBase : MonoBehaviour, IPoolable
             {
                 var player = x.gameObject.GetComponent<PlayerModel>();
 
-                if (player != null)
+                if (player != null && player.Status.CurrentState != PlayerState.Slowing)
                 {
                     Use(player);
                     gameObject.SetActive(false);

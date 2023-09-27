@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class InfiltratorItem : MonoBehaviour
+public class InfiltratorItem : ItemBase
 {
+    
     #region property
     #endregion
 
     #region serialize
+
+    [SerializeField]
+    private float _infiltratorTime = 5f;
     #endregion
 
     #region private
@@ -21,23 +25,18 @@ public class InfiltratorItem : MonoBehaviour
     #endregion
 
     #region unity methods
-    private void Awake()
-    {
-
-    }
-
-    private void Start()
-    {
-
-    }
     #endregion
 
     #region public method
+    public override void Use(PlayerModel model)
+    {
+        model.OnInfiltrator(_infiltratorTime);
+    }
     #endregion
 
     #region private method
     #endregion
-    
+
     #region coroutine method
     #endregion
 }

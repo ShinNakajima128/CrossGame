@@ -22,7 +22,7 @@ public class ItemManager : MonoBehaviour
     #endregion
 
     #region Constant
-    private const int ALL_ITEM_NUM = 3;
+    private const int ALL_ITEM_NUM = 2;
     #endregion
 
     #region Event
@@ -47,8 +47,8 @@ public class ItemManager : MonoBehaviour
     /// <returns>ƒAƒCƒeƒ€</returns>
     public ItemBase RandomItemGenerate()
     {
-        //ItemType randomType = (ItemType)Random.Range(0, ALL_ITEM_NUM);
-        ItemType randomType = ItemType.Boost;
+        ItemType randomType = (ItemType)Random.Range(0, ALL_ITEM_NUM);
+        //ItemType randomType = ItemType.Boost;
         var item = _itemPoolDic[randomType].Rent();
 
         return item;
