@@ -61,6 +61,7 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager>
         }
 
         Instance._isFading = true;
+        Instance._fadeImage.raycastTarget = true;
         float fadeTarget = default;
 
         //フェードの種類によって処理を変更する
@@ -91,6 +92,7 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager>
                            .OnComplete(() =>
                            {
                                Instance._isFading = false;
+                               Instance._fadeImage.raycastTarget = false;
                                //完了後に引数に渡されている処理を実行
                                callback?.Invoke();
                            });
