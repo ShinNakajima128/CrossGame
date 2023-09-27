@@ -11,9 +11,9 @@ public partial class GameStateMachine : MonoBehaviour
 
     #region private
     private StateBase _currentState;
-    private TitleState _titleState = new TitleState();
-    private InGameState _inGameState = new InGameState();
-    private ResultState _resultState = new ResultState();
+    private TitleState _titleState;
+    private InGameState _inGameState;
+    private ResultState _resultState;
     #endregion
 
     #region Constant
@@ -23,8 +23,14 @@ public partial class GameStateMachine : MonoBehaviour
     #endregion
 
     #region unity methods
-    private void Start()
+    private void Awake()
     {
+        Initialize();
+    }
+    private IEnumerator Start()
+    {
+        yield return null;
+
         ChangeState(GameState.Title);
 
         this.UpdateAsObservable()
@@ -56,6 +62,15 @@ public partial class GameStateMachine : MonoBehaviour
                 break;
         }
         _currentState.OnEnter();
+    }
+    #endregion
+
+    #region private method
+    private void Initialize()
+    {
+        _titleState = new TitleState();
+        _inGameState = new InGameState();
+        _resultState = new ResultState();
     }
     #endregion
 }

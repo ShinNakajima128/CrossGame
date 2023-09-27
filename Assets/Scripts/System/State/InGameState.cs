@@ -10,10 +10,11 @@ public partial class GameStateMachine : MonoBehaviour
         #region public method
         public override void OnEnter()
         {
-            GameManager.Instance.ChangeGameState(GameState.Title);
+            //GameManager.Instance.ChangeGameState(GameState.Title);
         }
         public override void OnUpdate()
         {
+
         }
         public override void OnExit()
         {
