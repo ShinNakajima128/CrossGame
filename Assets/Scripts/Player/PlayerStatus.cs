@@ -16,7 +16,6 @@ public partial class PlayerModel : MonoBehaviour
 
         #region private
         private PlayerState _currentState;
-        private int _currentHitchhikerAmount = 0;
         #endregion
 
         #region Constant
@@ -31,6 +30,7 @@ public partial class PlayerModel : MonoBehaviour
         {
             _currentState = PlayerState.Normal;
         }
+
         /// <summary>
         /// ÉRÉìÉ{êîÇëùâ¡Ç∑ÇÈ
         /// </summary>
@@ -52,7 +52,7 @@ public partial class PlayerModel : MonoBehaviour
                 case PlayerState.Normal:
                     break;
                 case PlayerState.Slowing:
-                    model._currentMoveSpeed = model._moveSpeed;
+                    model._currentMoveSpeed = model._originSpeed;
                     break;
                 case PlayerState.Infiltrator:
                     model.gameObject.layer = 6;
@@ -71,6 +71,8 @@ public partial class PlayerModel : MonoBehaviour
                     model._playerModelRenderer.material.SetColor("_AlbedoColor", Color.white);
                     break;
                 case PlayerState.Slowing:
+                    model.BreakBoost();
+                    model._originSpeed = model._currentMoveSpeed;
                     model._currentMoveSpeed /= 2;
                     model._playerModelRenderer.material.SetColor("_AlbedoColor", model._slowStateColor);
                     break;
@@ -91,18 +93,19 @@ public partial class PlayerModel : MonoBehaviour
             model._playerModelRenderer.material.SetFloat("_Opacity", amount);
         }
 
-        public void ChangeHitchhikerNum(PlayerModel model, int amount)
+        public void ChangeHitchhikerNum(PlayerModel model)
         {
-            _currentHitchhikerAmount += amount;
-            model._currentMoveSpeed += model._moveSpeed * 1.1f;
+            model._currentMoveSpeed += model._moveSpeed * 0.15f;
+        }
+
+        public void ResetCombo()
+        {
+            _currentComboAmountRP.Value = 0;
         }
 
         public void ResetStatus()
         {
-            _currentHitchhikerAmount = 0;
-        }
-        public void ResetCombo()
-        {
+            _currentState = PlayerState.Normal;
             _currentComboAmountRP.Value = 0;
         }
         #endregion

@@ -8,9 +8,6 @@ using UniRx;
 /// </summary>
 public class PlayerPresenter : MonoBehaviour
 {
-    #region property
-    #endregion
-
     #region serialize
     [SerializeField]
     private PlayerModel _model = default;
@@ -19,35 +16,37 @@ public class PlayerPresenter : MonoBehaviour
     private PlayerView _view = default;
     #endregion
 
-    #region private
-    #endregion
-
-    #region Constant
-    #endregion
-
-    #region Event
-    #endregion
-
     #region unity methods
-    private void Awake()
-    {
-
-    }
-
     private void Start()
     {
         //ゲームの状態によってプレイヤー操作可能かを切り替えるイベント処理をGameManagerに登録
         GameManager.Instance.IsInGameObserver
                             .TakeUntilDestroy(this)
                             .Subscribe(value => _model.ChangeIsCanOperation(value));
-        
+
+        GameManager.Instance.AddHitchhikerObserver
+                            .TakeUntilDestroy(this)
+                            .Subscribe(_ => _model.AddHitchhiker());
+
         GameManager.Instance.UpdateComboObserver
                             .TakeUntilDestroy(this)
                             .Subscribe(_ => _model.AddCombo());
 
-        GameManager.Instance.PlayerDamageObserver
+        GameManager.Instance.ResetComboObserver
                             .TakeUntilDestroy(this)
-                            .Subscribe(_ => _model.Status.ResetStatus());
+                            .Subscribe(_ => _model.ResetCombo());
+
+        GameManager.Instance.GameEndObserver
+                            .TakeUntilDestroy(this)
+                            .Subscribe(_ =>
+                            {
+                                _model.ResetVelocity();
+                                _model.PlayerReset();
+                            });
+
+        GameManager.Instance.GameResetObserver
+                            .TakeUntilDestroy(this)
+                            .Subscribe(_ => _model.PlayerReset());
 
         //スコアが更新されて画面の表示を更新するイベント処理をScoreManagerに登録
         ScoreManager.Instance.CurrentScoreObserver
@@ -64,14 +63,5 @@ public class PlayerPresenter : MonoBehaviour
                      .TakeUntilDestroy(this)
                      .Subscribe(value => _view.UpdateComboView(value));
     }
-    #endregion
-
-    #region public method
-    #endregion
-
-    #region private method
-    #endregion
-    
-    #region coroutine method
     #endregion
 }
