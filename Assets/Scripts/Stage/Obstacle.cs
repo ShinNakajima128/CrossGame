@@ -49,7 +49,7 @@ public partial class Obstacle : MonoBehaviour, IPoolable
             .Subscribe(x =>
             {
                 if (_data.IsImmortaled)
-                {   
+                {
                     AudioManager.PlaySE(SEType.Crash);
                 }
                 else
@@ -61,6 +61,7 @@ public partial class Obstacle : MonoBehaviour, IPoolable
                         _isVanished = true;
                     }
                 }
+                GameManager.Instance.OnResetCombo();
             });
     }
 

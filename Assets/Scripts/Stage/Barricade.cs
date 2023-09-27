@@ -35,7 +35,7 @@ public class Barricade : MonoBehaviour
                 score = _scoreAmount * currentCombo;
 
                 ScoreManager.Instance.AddScore(score);
-                AudioManager.PlaySE(SEType.Boost);
+                AudioManager.PlaySE(SEType.Result_TextView);
             });
     }
     #endregion

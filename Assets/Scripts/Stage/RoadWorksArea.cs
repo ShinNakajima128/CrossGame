@@ -43,7 +43,7 @@ public class RoadWorksArea : MonoBehaviour
 
                 if (player != null)
                 {
-                    if (!player.IsInvincible)
+                    if (!player.IsInvincible && player.Status.CurrentState != PlayerState.Infiltrator)
                     {
                         player.OnSlow(_slowTime);
                     }

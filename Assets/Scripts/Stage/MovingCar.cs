@@ -61,6 +61,8 @@ public class MovingCar : MonoBehaviour
                     if (!player.IsInvincible)
                     {
                         player?.Damage();
+                        GameManager.Instance.OnPlayerDamage();
+                        GameManager.Instance.OnResetCombo();
                         AudioManager.PlaySE(SEType.InGame_CarHorn);
                     }
                 }
