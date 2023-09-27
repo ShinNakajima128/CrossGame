@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
-public class Hitchhiker : MonoBehaviour
+public class Hitchhiker : MonoBehaviour, IPoolable
 {
     #region property
     public HitchhikerType HitchhikerType => _hitchHikerType;
+
+    public System.IObservable<Unit> InactiveObserver => _inactiveSubject;
     #endregion
 
     #region serialize
@@ -29,6 +31,7 @@ public class Hitchhiker : MonoBehaviour
     #endregion
 
     #region Event
+    private Subject<Unit> _inactiveSubject = new Subject<Unit>();
     #endregion
 
     #region unity methods
@@ -38,8 +41,6 @@ public class Hitchhiker : MonoBehaviour
     }
     private void Start()
     {
-        //yield return null;
-
         if (_debugMode)
         {
             ChangeState(_debugState);
@@ -48,6 +49,11 @@ public class Hitchhiker : MonoBehaviour
         {
             ChangeState(HitchhikerState.Idle);
         }
+    }
+
+    private void OnDisable()
+    {
+        ReturnPool();
     }
     #endregion
 
@@ -64,6 +70,7 @@ public class Hitchhiker : MonoBehaviour
             case HitchhikerState.Dancing:
                 int random = Random.Range(0, 5);
                 _anim.Play($"Dancing{random + 1}");
+                OnRideSE(HitchhikerType);
                 break;
             case HitchhikerState.BlowOff:
                 break;
@@ -71,11 +78,39 @@ public class Hitchhiker : MonoBehaviour
                 break;
         }
     }
+
+    public void ReturnPool()
+    {
+        _inactiveSubject.OnNext(Unit.Default);
+    }
     #endregion
 
     #region private method
+    private void OnRideSE(HitchhikerType type)
+    {
+        switch (type)
+        {
+            case HitchhikerType.Female_G:
+                AudioManager.PlaySE(SEType.HitchhikersRide_Type1);
+                break;
+            case HitchhikerType.Elder_Female_G:
+                AudioManager.PlaySE(SEType.HitchhikersRide_Type5);
+                break;
+            case HitchhikerType.Male_G:
+                AudioManager.PlaySE(SEType.HitchhikersRide_Type2);
+                break;
+            case HitchhikerType.Male_K:
+                AudioManager.PlaySE(SEType.HitchhikersRide_Type4);
+                break;
+            case HitchhikerType.Little_Boy:
+                AudioManager.PlaySE(SEType.HitchhikersRide_Type3);
+                break;
+            default:
+                break;
+        }
+    }
     #endregion
-    
+
     #region coroutine method
     #endregion
 }

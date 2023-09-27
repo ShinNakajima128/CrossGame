@@ -17,14 +17,10 @@ public class HitchhikerBoardingGenerator : MonoBehaviour
     private int _maxGenerateNum = 3;
 
     [SerializeField]
-    private HitchhikerBoardingArea _bordingArea = default;
-
-    [SerializeField]
     private Transform[] _generatePoints = default;
     #endregion
 
     #region private
-    private ObjectPool<HitchhikerBoardingArea> _boadingAreaPool;
     private List<int> _alreadyGenerateIndexList = new List<int>();
     private bool _init = false;
     #endregion
@@ -34,11 +30,6 @@ public class HitchhikerBoardingGenerator : MonoBehaviour
     #endregion
 
     #region unity methods
-    private void Awake()
-    {
-        _boadingAreaPool = new ObjectPool<HitchhikerBoardingArea>(_bordingArea, transform);
-    }
-
     private void Start()
     {
         Initialize();
@@ -62,7 +53,7 @@ public class HitchhikerBoardingGenerator : MonoBehaviour
             _alreadyGenerateIndexList.Clear();
         }
 
-        int generateNum = Random.Range(0, _maxGenerateNum);
+        int generateNum = Random.Range(1, _maxGenerateNum);
 
         for (int i = 0; i < generateNum; i++)
         {
@@ -75,9 +66,9 @@ public class HitchhikerBoardingGenerator : MonoBehaviour
                 continue;
             }
 
-            var hitchhiker = ItemManager.Instance.RandomItemGenerate();
+            var area = HitchhikerManager.Instance.RentBoardingArea();
 
-            hitchhiker.transform.position = _generatePoints[randomIndex].position;
+            area.transform.position = _generatePoints[randomIndex].position;
             _alreadyGenerateIndexList.Add(randomIndex);
         }
         _init = true;

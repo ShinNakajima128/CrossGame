@@ -10,10 +10,8 @@ using UniRx.Triggers;
 /// </summary>
 public class HitchhikerBoardingArea : MonoBehaviour, IPoolable
 {
-    public IObservable<Unit> InactiveObserver => _inactiveSubject;
-
-
     #region property
+    public IObservable<Unit> InactiveObserver => _inactiveSubject;
     #endregion
 
     #region serialize
@@ -40,7 +38,11 @@ public class HitchhikerBoardingArea : MonoBehaviour, IPoolable
             .Where(x => x.gameObject.CompareTag(GameTag.Player))
             .Subscribe(x =>
             {
-                GameManager.Instance.OnAddHitchhiker(_currentHicthhiker.HitchhikerType);
+                if (HitchhikerManager.Instance.IsCanRiding())
+                {
+                    GameManager.Instance.OnAddHitchhiker(_currentHicthhiker.HitchhikerType);
+                    gameObject.SetActive(false);
+                }
             });
     }
 
@@ -66,14 +68,20 @@ public class HitchhikerBoardingArea : MonoBehaviour, IPoolable
     #region private method
     private void Initialize()
     {
-        HitchhikerType type = (HitchhikerType)UnityEngine.Random.Range(0, (int)HitchhikerType.MAX_NUM);
-
-        _currentHicthhiker = HitchhikerManager.Instance.RentHitchhiker(type);
-        _currentHicthhiker.transform.position = _generatePoint.position;
-        _currentHicthhiker.transform.rotation = _generatePoint.rotation;
+        StartCoroutine(GenerateCoroutine());
     }
     #endregion
 
     #region coroutine method
+    private IEnumerator GenerateCoroutine()
+    {
+        yield return null;
+        HitchhikerType type = (HitchhikerType)UnityEngine.Random.Range(0, (int)HitchhikerType.MAX_NUM);
+
+        _currentHicthhiker = HitchhikerManager.Instance.RentHitchhiker(type);
+        _currentHicthhiker.transform.position = transform.position;
+        _currentHicthhiker.transform.localEulerAngles = new Vector3(0f, 180f, 0f);
+        _currentHicthhiker.ChangeState(HitchhikerState.Idle);
+    }
     #endregion
 }
