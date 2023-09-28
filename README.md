@@ -102,5 +102,5 @@ https://github.com/ShinNakajima128/CrossGame/tree/master/Assets/Scripts/Player
 
 ・リザルト表示終了後、「リトライ」「タイトル画面に戻る」を選択可能。
 
-##その他試したこと
+## その他試したこと
 ・オブジェクトのディザリング透過処理をShaderGraphにて作成しました。
