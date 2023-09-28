@@ -32,6 +32,7 @@ https://github.com/ShinNakajima128/CrossGame/blob/master/Assets/Scripts/DesignPa
 https://github.com/ShinNakajima128/CrossGame/blob/master/Assets/Scripts/System/GameManager.cs
 
 ・MVP(Model-View-Presenter)
+
 https://github.com/ShinNakajima128/CrossGame/tree/master/Assets/Scripts/Player
 
 ## ゲームの説明
