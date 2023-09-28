@@ -5,6 +5,9 @@ using UniRx;
 
 public partial class GameStateMachine : MonoBehaviour
 {
+    /// <summary>
+    /// リザルト画面での振る舞いを行うStateクラス
+    /// </summary>
     public class ResultState : StateBase
     {
         #region public method

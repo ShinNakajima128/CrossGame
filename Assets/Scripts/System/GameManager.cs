@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
+using TMPro;
 
 [RequireComponent(typeof(GameStateMachine))]
 public class GameManager : SingletonMonoBehaviour<GameManager>
@@ -11,11 +12,13 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public IObservable<bool> IsInGameObserver => _isInGameSubject;
     public IObservable<Unit> GameStartObserver => _gameStartSubject;
     public IObservable<bool> GamePauseObserver => _gamePauseSubject;
+    public IObservable<HitchhikerType> AddHitchhikerObserver => _addHitchhikerSubject;
+    public IObservable<Unit> UpdateComboObserver => _updateComboSubject;
+    public Subject<Unit> ResetComboObserver => _resetComboSubject;
     public IObservable<Unit> PlayerDamageObserver => _playerDamageSubject;
-    public IObservable<HitchHikerType> AddHitchhikerObserver => _addHitchhikerSubject;
     public IObservable<Unit> GameEndObserver => _gameEndSubject;
     public IObservable<Unit> GameResetObserver => _gameResetSubject;
-    public IObservable<int> AddScoreObserver => _addScoreSubject;
+    public IObservable<int> UpdateScoreObserver => _updateScoreSubject;
     #endregion
 
     #region serialize
@@ -33,7 +36,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private GameStateMachine _stateMachine;
 
     private GameState _currentState;
-    private StageLevel _currentStageLevel;
     #endregion
 
     #region Constant
@@ -47,15 +49,19 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     /// <summary>ゲーム中断時のSubject</summary>
     private Subject<bool> _gamePauseSubject = new Subject<bool>();
     /// <summar>ヒッチハイカーを増やすSubject</summar></summary>
-    private Subject<HitchHikerType> _addHitchhikerSubject = new Subject<HitchHikerType>();
+    private Subject<HitchhikerType> _addHitchhikerSubject = new Subject<HitchhikerType>();
+    /// <summary>コンボ数を更新するSubject</summary>
+    private Subject<Unit> _updateComboSubject = new Subject<Unit>();
+    /// <summary>コンボ数をリセットするSubject</summary>
+    private Subject<Unit> _resetComboSubject = new Subject<Unit>();
     /// <summary>プレイヤー被弾時のSubject</summary>
     private Subject<Unit> _playerDamageSubject = new Subject<Unit>();
     /// <summary>ゲーム終了時のSubject</summary>
     private Subject<Unit> _gameEndSubject = new Subject<Unit>();
     /// <summary>ゲームの内容をリセットするSubject</summary>
     private Subject<Unit> _gameResetSubject = new Subject<Unit>();
-    /// <summary>ゲームの内容をリセットするSubject</summary>
-    private Subject<int> _addScoreSubject = new Subject<int>();
+    /// <summary>スコアを更新するSubject</summary>
+    private Subject<int> _updateScoreSubject = new Subject<int>();
     #endregion
 
     #region unity methods
@@ -73,7 +79,6 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     private void Start()
     {
         FadeManager.Fade(FadeType.In);
-        AudioManager.PlayBGM(BGMType.Title);
         ChangeViewGroup(GameState.Title);
     }
     #endregion
@@ -87,6 +92,7 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     {
         if (_currentState == nextState)
         {
+            Debug.Log("同じステートです");
             return;
         }
         _stateMachine.ChangeState(nextState);
@@ -109,6 +115,11 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         });
     }
 
+    public void OnGameReStart()
+    {
+        CameraManager.Instance.ChangeCamera(CameraType.InGame, 0f);
+        TimeManager.Instance.OnCountDown();
+    }
     public void OnChangeIsInGame(bool value)
     {
         _isInGameSubject.OnNext(value);
@@ -122,7 +133,32 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         _gamePauseSubject.OnNext(value);
         _isInGameSubject.OnNext(!value);
     }
+    /// <summary>
+    /// ヒッチハイカーを追加する
+    /// </summary>
+    public void OnAddHitchhiker(HitchhikerType type)
+    {
+        _addHitchhikerSubject.OnNext(type);
+    }
 
+    /// <summary>
+    /// コンボ数を増加する
+    /// </summary>
+    public void OnAddConbo()
+    {
+        _updateComboSubject.OnNext(Unit.Default);
+    }
+
+    /// <summary>
+    /// コンボ数をリセットする
+    /// </summary>
+    public void OnResetCombo()
+    {
+        _resetComboSubject.OnNext(Unit.Default);
+    }
+    /// <summary>
+    /// プレイヤーの被弾処理を実行する
+    /// </summary>
     public void OnPlayerDamage()
     {
         _playerDamageSubject.OnNext(Unit.Default);

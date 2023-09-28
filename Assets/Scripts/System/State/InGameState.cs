@@ -5,12 +5,14 @@ using UniRx;
 
 public partial class GameStateMachine : MonoBehaviour
 {
+    /// <summary>
+    /// インゲーム画面での振る舞いを行うStateクラス
+    /// </summary>
     public class InGameState : StateBase
     {
         #region public method
         public override void OnEnter()
         {
-            //GameManager.Instance.ChangeGameState(GameState.Title);
         }
         public override void OnUpdate()
         {

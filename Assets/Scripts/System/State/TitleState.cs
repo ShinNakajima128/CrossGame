@@ -5,12 +5,11 @@ using UniRx;
 
 public partial class GameStateMachine : MonoBehaviour
 {
+    /// <summary>
+    /// タイトル画面での振る舞いを行うStateクラス
+    /// </summary>
     public class TitleState : StateBase
     {
-        #region private
-        private bool _isStarted = false;
-        #endregion
-
         #region public method
         public override void OnEnter()
         {
@@ -21,12 +20,10 @@ public partial class GameStateMachine : MonoBehaviour
             if (Input.anyKeyDown)
             {
                 GameManager.Instance.OnGameStart();
-                // = true;
             }
         }
         public override void OnExit()
         {
-            //_isStarted = false;
         }
         #endregion
     }
