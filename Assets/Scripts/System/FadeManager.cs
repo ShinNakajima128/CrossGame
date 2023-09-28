@@ -11,6 +11,7 @@ using DG.Tweening;
 public class FadeManager : SingletonMonoBehaviour<FadeManager>
 {
     #region property
+    protected override bool IsDontDestroyOnLoad => true;
     #endregion
 
     #region serialize
@@ -28,24 +29,6 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager>
     #region private
     /// <summary>フェード中かどうか</summary>
     private bool _isFading = false;
-    #endregion
-
-    #region Constant
-    #endregion
-
-    #region Event
-    #endregion
-
-    #region unity methods
-    private void Awake()
-    {
-        if (Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        DontDestroyOnLoad(gameObject);
-    }
     #endregion
 
     #region public method
@@ -98,16 +81,4 @@ public class FadeManager : SingletonMonoBehaviour<FadeManager>
                            });
     }
     #endregion
-
-    #region private method
-    #endregion
-}
-
-/// <summary>
-/// フェードの種類
-/// </summary>
-public enum FadeType
-{
-    In,
-    Out
 }

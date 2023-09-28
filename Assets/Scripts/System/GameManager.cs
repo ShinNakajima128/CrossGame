@@ -21,6 +21,8 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     public IObservable<Unit> GameEndObserver => _gameEndSubject;
     public IObservable<Unit> GameResetObserver => _gameResetSubject;
     public IObservable<int> UpdateScoreObserver => _updateScoreSubject;
+
+    protected override bool IsDontDestroyOnLoad => true;
     #endregion
 
     #region serialize
@@ -68,14 +70,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     #endregion
 
     #region unity methods
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance != this)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
 
         _stateMachine = GetComponent<GameStateMachine>();
     }

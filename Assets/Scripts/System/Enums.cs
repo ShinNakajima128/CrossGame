@@ -141,3 +141,11 @@ public enum ResultButtonType
     Retry,
     Title
 }
+/// <summary>
+/// フェードの種類
+/// </summary>
+public enum FadeType
+{
+    In,
+    Out
+}

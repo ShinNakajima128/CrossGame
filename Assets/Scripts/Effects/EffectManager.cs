@@ -49,19 +49,19 @@ public class EffectManager : SingletonMonoBehaviour<EffectManager>
     [SerializeField] 
     EffectData[] m_effectDatas = default;
 
-    Dictionary<EffectType, List<EffectControl>> m_effectDic = new Dictionary<EffectType, List<EffectControl>>();
-
+    #region property
     public Dictionary<EffectType, List<EffectControl>> EffectDic => m_effectDic;
 
-    void Awake()
-    {
-        if (this != Instance)
-        {
-            Destroy(gameObject);
-            return;
-        }
+    protected override bool IsDontDestroyOnLoad => true;
+    #endregion
 
-        DontDestroyOnLoad(gameObject);
+    #region private
+    private Dictionary<EffectType, List<EffectControl>> m_effectDic = new Dictionary<EffectType, List<EffectControl>>();
+    #endregion
+
+    protected override void Awake()
+    {
+        base.Awake();
 
         for (int i = 0; i < m_effectDatas.Length; i++)
         {
