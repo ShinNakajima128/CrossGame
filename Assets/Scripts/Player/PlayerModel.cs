@@ -7,6 +7,9 @@ using UniRx;
 using UniRx.Triggers;
 using DG.Tweening;
 
+/// <summary>
+/// プレイヤーの動作の機能を持つコンポーネント
+/// </summary>
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public partial class PlayerModel : MonoBehaviour, IDamagable
@@ -22,18 +25,23 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
     [SerializeField]
     private int _maxHP = 3;
 
+    [Tooltip("移動速度")]
     [SerializeField]
     private float _moveSpeed = 5.0f;
 
+    [Tooltip("回転速度")]
     [SerializeField]
     private float _rotateSpeed = 5.0f;
 
+    [Tooltip("ダメージ後の無敵時間")]
     [SerializeField]
     private float _afterDamageInvincibleTime = 2.0f;
 
+    [Tooltip("プレイヤーのオブジェクトモデルのTransform")]
     [SerializeField]
     private Transform _playerModelTrans = default;
 
+    [Tooltip("加速エフェクトのオブジェクト")]
     [SerializeField]
     private GameObject _accelEffect = default;
 
@@ -43,26 +51,34 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
     #endregion
 
     #region private
+    /// <summary>プレイヤーの入力情報</summary>
     private PlayerInput _input;
+    /// <summary>物理挙動用のコンポーネント</summary>
     private Rigidbody _rb;
+    /// <summary>プレイヤーの状態を持つコンポーネント</summary>
     private PlayerStatus _status;
 
+    /// <summary>入力座標</summary>
     private Vector2 _inputAxis;
+    /// <summary>現在の移動速度</summary>
     private float _currentMoveSpeed;
+    /// <summary>元々の移動速度。加速アイテムの効果終了時などに活用</summary>
     private float _originSpeed;
+    /// <summary>操作可能かどうか</summary>
     private bool _isCanOperate = false;
-    private bool _isBoosting = false;
+    /// <summary>ダメージ処理中かどうか</summary>
     private bool _isDamaged = false;
+    /// <summary>無敵中かどうか</summary>
     private bool _isInvincibled = false;
 
+    /// <summary>プレイヤーオブジェクトのRenderer</summary>
     private Renderer _playerModelRenderer;
+    /// <summary>加速処理のCoroutine</summary>
     private Coroutine _boostCoroutine;
+    /// <summary>すり抜け処理のCoroutine</summary>
     private Coroutine _InfiltratorCoroutine;
+    /// <summary>ダメージ処理のCoroutine</summary>
     private Coroutine _damageCoroutine;
-
-    #endregion
-
-    #region Constant
     #endregion
 
     #region Event
@@ -82,6 +98,7 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
 
     private void Start()
     {
+        //プレイヤーの入力処理を登録
         this.UpdateAsObservable()
             .TakeUntilDestroy(this)
             .Where(_ => _isCanOperate)
@@ -182,18 +199,28 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
     {
         _status.AddComboNum();
     }
-
+    /// <summary>
+    /// コンボ数をリセットする
+    /// </summary>
     public void ResetCombo()
     {
         _status.ResetCombo();
     }
+    /// <summary>
+    /// プレイヤー操作の可能/不可を切り替える
+    /// </summary>
+    /// <param name="value">可能/不可</param>
     public void ChangeIsCanOperation(bool value)
     {
         _isCanOperate = value;
     }
+    /// <summary>
+    /// プレイヤーの状態をリセットする
+    /// </summary>
     public void PlayerReset()
     {
         _status.ChangeTransparency(this, 1f);
+        _status.ChangeState(this, PlayerState.Normal);
         _status.ResetStatus();
         _currentMoveSpeed = _moveSpeed;
         _playerModelTrans.eulerAngles = Vector3.zero;
@@ -210,6 +237,9 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
     #endregion
 
     #region private method
+    /// <summary>
+    /// 移動処理
+    /// </summary>
     private void OnMoving()
     {
         if (_input.actions["Throttle"].IsPressed())
@@ -227,16 +257,27 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
         }
         //Debug.Log($"現在の速度{_rb.velocity.magnitude}");
     }
+    /// <summary>
+    /// 入力方向をセットする
+    /// </summary>
+    /// <param name="dir">入力方向</param>
     private void SetDirection(Vector2 dir)
     {
         _inputAxis = dir;
     }
+    /// <summary>
+    /// 回転処理
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnRotate(InputAction.CallbackContext obj)
     {
         var value = obj.ReadValue<Vector2>();
         value.y = 0;
         SetDirection(value);
     }
+    /// <summary>
+    /// 回転情報をセットする
+    /// </summary>
     private void SetRotateInput()
     {
         if (_inputAxis != Vector2.zero && _rb.velocity.magnitude != 0)
@@ -245,12 +286,20 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
             _playerModelTrans.rotation = Quaternion.Slerp(_playerModelTrans.rotation, targetRotation, Time.deltaTime * _rotateSpeed);
         }
     }
+    /// <summary>
+    /// 入力情報をリセットする
+    /// </summary>
+    /// <param name="obj"></param>
     private void OnResetInput(InputAction.CallbackContext obj)
     {
         SetDirection(Vector2.zero);
     }
+    /// <summary>
+    /// デバッグ処理
+    /// </summary>
     private void DebugInput()
     {
+#if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Q))
         {
             _status.ChangeState(this, PlayerState.Normal);
@@ -271,10 +320,17 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
         {
             Damage();
         }
+#endif
     }
     #endregion
 
     #region coroutine method
+    /// <summary>
+    /// 加速処理のCoroutine
+    /// </summary>
+    /// <param name="boostAmount">加速量</param>
+    /// <param name="boostTime">加速時間</param>
+    /// <returns></returns>
     private IEnumerator BoostCoroutine(float boostAmount, float boostTime)
     {
         _originSpeed = _currentMoveSpeed;
@@ -282,6 +338,7 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
         
         _accelEffect.SetActive(true);
 
+        //徐々に加速
         yield return DOTween.To(() =>
                             _currentMoveSpeed,
                             x => _currentMoveSpeed = x,
@@ -291,6 +348,7 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
 
         yield return new WaitForSeconds(boostTime);
 
+        //徐々に減速
         yield return DOTween.To(() =>
                              _currentMoveSpeed,
                              x => _currentMoveSpeed = x,
@@ -302,6 +360,11 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
         AudioManager.PlaySE(SEType.BackToNormalState);
     }
 
+    /// <summary>
+    /// すり抜け処理のCOroutine
+    /// </summary>
+    /// <param name="infiltratorTime">すり抜け可能時間</param>
+    /// <returns></returns>
     private IEnumerator InfiltratorCoroutine(float infiltratorTime)
     {
         _status.ChangeState(this, PlayerState.Infiltrator);
@@ -309,6 +372,7 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
 
         yield return new WaitForSeconds(infiltratorTime - 2);
 
+        //すり抜け状態終了2秒前になると点滅し、プレイヤーに終了間近を伝える処理を行う
         for (int i = 0; i < 10; i++)
         {
             if (i % 2 == 0)
@@ -322,12 +386,18 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
             yield return new WaitForSeconds(0.2f);
         }
 
+        //プレイヤーモデルの透過処理の衝突があったため、1フレーム待機することで対処
         yield return null;
 
+        //プレイヤーの状態を通常状態に戻す
         _status.ChangeState(this, PlayerState.Normal);
         AudioManager.PlaySE(SEType.BackToNormalState);
     }
-
+    /// <summary>
+    /// 速度低下処理のCoroutine
+    /// </summary>
+    /// <param name="slowTime">速度低下時間</param>
+    /// <returns></returns>
     private IEnumerator SlowCoroutine(float slowTime)
     {
         _status.ChangeState(this, PlayerState.Slowing);
@@ -335,9 +405,13 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
 
         yield return new WaitForSeconds(slowTime);
 
+        //プレイヤーの状態を通常状態に戻す
         _status.ChangeState(this, PlayerState.Normal);
     }
-
+    /// <summary>
+    /// ダメージ処理のCoroutine
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator DamageCoroutine()
     {
         _isDamaged = true;
@@ -345,6 +419,7 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
         _currentMoveSpeed = _moveSpeed;
         _damageSubject.OnNext(Unit.Default);
 
+        //衝突によるスピンを表現
         yield return _playerModelTrans.DOLocalRotate(new Vector3(0f, _playerModelTrans.localRotation.y + 720f, 0f),
                                                     1.0f, RotateMode.FastBeyond360)
                                                     .SetEase(Ease.Linear)

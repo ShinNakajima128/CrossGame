@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UniRx;
 
 /// <summary>
 /// プレイヤーの情報をUIに表示する機能を持つコンポーネント
@@ -10,9 +7,11 @@ using UniRx;
 public class PlayerView : MonoBehaviour
 {
     #region serialize
+    [Tooltip("スコア表示のTMP")]
     [SerializeField]
     private TextMeshProUGUI _scoreTMP = default;
 
+    [Tooltip("コンボ数表示のTMP")]
     [SerializeField]
     private TextMeshProUGUI _comboTMP = default;
     #endregion

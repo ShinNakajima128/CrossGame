@@ -142,7 +142,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             ""id"": ""9e23e31a-9b7f-49e3-a8d5-f217a1cf1297"",
             ""actions"": [
                 {
-                    ""name"": ""New action"",
+                    ""name"": ""TitleClick"",
                     ""type"": ""Button"",
                     ""id"": ""6dfb34ef-892c-470f-8ec0-21c4883de2b2"",
                     ""expectedControlType"": ""Button"",
@@ -159,7 +159,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""New action"",
+                    ""action"": ""TitleClick"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -174,7 +174,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_Player_Throttle = m_Player.FindAction("Throttle", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_Newaction = m_UI.FindAction("New action", throwIfNotFound: true);
+        m_UI_TitleClick = m_UI.FindAction("TitleClick", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -290,12 +290,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     // UI
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-    private readonly InputAction m_UI_Newaction;
+    private readonly InputAction m_UI_TitleClick;
     public struct UIActions
     {
         private @PlayerControls m_Wrapper;
         public UIActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Newaction => m_Wrapper.m_UI_Newaction;
+        public InputAction @TitleClick => m_Wrapper.m_UI_TitleClick;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -305,16 +305,16 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-            @Newaction.started += instance.OnNewaction;
-            @Newaction.performed += instance.OnNewaction;
-            @Newaction.canceled += instance.OnNewaction;
+            @TitleClick.started += instance.OnTitleClick;
+            @TitleClick.performed += instance.OnTitleClick;
+            @TitleClick.canceled += instance.OnTitleClick;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
         {
-            @Newaction.started -= instance.OnNewaction;
-            @Newaction.performed -= instance.OnNewaction;
-            @Newaction.canceled -= instance.OnNewaction;
+            @TitleClick.started -= instance.OnTitleClick;
+            @TitleClick.performed -= instance.OnTitleClick;
+            @TitleClick.canceled -= instance.OnTitleClick;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -339,6 +339,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     }
     public interface IUIActions
     {
-        void OnNewaction(InputAction.CallbackContext context);
+        void OnTitleClick(InputAction.CallbackContext context);
     }
 }

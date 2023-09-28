@@ -9,9 +9,11 @@ using UniRx;
 public class PlayerPresenter : MonoBehaviour
 {
     #region serialize
+    [Tooltip("プレイヤーの動作処理を行うコンポーネント")]
     [SerializeField]
     private PlayerModel _model = default;
 
+    [Tooltip("プレイヤー情報を表示するコンポーネント")]
     [SerializeField]
     private PlayerView _view = default;
     #endregion
@@ -19,23 +21,27 @@ public class PlayerPresenter : MonoBehaviour
     #region unity methods
     private void Start()
     {
-        //ゲームの状態によってプレイヤー操作可能かを切り替えるイベント処理をGameManagerに登録
+        //ゲームの状態によってプレイヤー操作可能かを切り替えるイベント処理を登録
         GameManager.Instance.IsInGameObserver
                             .TakeUntilDestroy(this)
                             .Subscribe(value => _model.ChangeIsCanOperation(value));
 
+        //ヒッチハイカー乗車時のイベント処理を登録
         GameManager.Instance.AddHitchhikerObserver
                             .TakeUntilDestroy(this)
                             .Subscribe(_ => _model.AddHitchhiker());
 
+        //コンボ数変更時のイベント処理を登録
         GameManager.Instance.UpdateComboObserver
                             .TakeUntilDestroy(this)
                             .Subscribe(_ => _model.AddCombo());
 
+        //コンボ数リセット時のイベント処理を登録
         GameManager.Instance.ResetComboObserver
                             .TakeUntilDestroy(this)
                             .Subscribe(_ => _model.ResetCombo());
 
+        //ゲーム終了時のイベント処理を登録
         GameManager.Instance.GameEndObserver
                             .TakeUntilDestroy(this)
                             .Subscribe(_ =>
@@ -44,6 +50,7 @@ public class PlayerPresenter : MonoBehaviour
                                 _model.PlayerReset();
                             });
 
+        //ゲーム初期化時のイベント処理を登録
         GameManager.Instance.GameResetObserver
                             .TakeUntilDestroy(this)
                             .Subscribe(_ => _model.PlayerReset());

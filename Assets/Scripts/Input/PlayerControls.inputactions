@@ -120,7 +120,7 @@
             "id": "9e23e31a-9b7f-49e3-a8d5-f217a1cf1297",
             "actions": [
                 {
-                    "name": "New action",
+                    "name": "TitleClick",
                     "type": "Button",
                     "id": "6dfb34ef-892c-470f-8ec0-21c4883de2b2",
                     "expectedControlType": "Button",
@@ -137,7 +137,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "New action",
+                    "action": "TitleClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
