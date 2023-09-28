@@ -10,6 +10,14 @@ using UnityEngine.Audio;
 /// </summary>
 public class AudioManager : SingletonMonoBehaviour<AudioManager>
 {
+    #region property
+    public int CurrentBGMVolume { get; set; } = 5;
+    public int CurrentSEVolume { get; set; } = 5;
+
+    protected override bool IsDontDestroyOnLoad => true;
+    #endregion
+
+    #region serialize
     [Header("各音量")]
     [SerializeField, Range(0f, 1f)]
     float _masterVolume = 1.0f;
@@ -55,23 +63,17 @@ public class AudioManager : SingletonMonoBehaviour<AudioManager>
     [Tooltip("AudioMixer")]
     [SerializeField]
     AudioMixer _mixer = default;
-
-    List<AudioSource> _seAudioSourceList = new List<AudioSource>();
-    bool _isStoping = false;
-
-    #region Volume Property
-    public int CurrentBGMVolume { get; set; } = 5;
-    public int CurrentSEVolume { get; set; } = 5;
     #endregion
 
-    void Awake()
+    #region private
+    List<AudioSource> _seAudioSourceList = new List<AudioSource>();
+    bool _isStoping = false;
+    #endregion
+
+
+    protected override void Awake()
     {
-        if (this != Instance)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        DontDestroyOnLoad(gameObject);
+        base.Awake();
 
         //指定した数のSE用AudioSourceを生成
         for (int i = 0; i < _seAudioSourceNum; i++)
