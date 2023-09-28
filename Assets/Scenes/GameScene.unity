@@ -6175,16 +6175,16 @@ MonoBehaviour:
   _explosionPoint: {fileID: 1429391315}
   _hitchhikers:
   - {fileID: 7836863645306969792, guid: 3e77c4e838645ed40ab9be1764eedd96, type: 3}
+  - {fileID: 6846878438136562665, guid: 013056864aa7e0e4fb142f16aafe20a8, type: 3}
   - {fileID: 3832781535348668797, guid: 6ee9f50122a71994393b068feef1c96e, type: 3}
   - {fileID: 6148145970046687388, guid: ea81a91a4417b1847bdd65a48c850c9f, type: 3}
   - {fileID: 726149864919399333, guid: 3f9926c1d9146e74db2ac45488ae0c64, type: 3}
-  - {fileID: 6846878438136562665, guid: 013056864aa7e0e4fb142f16aafe20a8, type: 3}
   _ragdolls:
   - {fileID: 8978448676211192133, guid: e4dd548d16f62e5439c9223c59f72f8d, type: 3}
+  - {fileID: 3879469352633666344, guid: dc95bc11ea19dc443ad474bbed334643, type: 3}
   - {fileID: 8921207951399079031, guid: c83b7adeb5dd5774ba5c0d33cd2b9268, type: 3}
   - {fileID: 3985890607475315724, guid: fec907668f8485c489368258e91ca5ea, type: 3}
   - {fileID: 2955600867144306306, guid: b629c56260391e84d95f7fcc7de25075, type: 3}
-  - {fileID: 3879469352633666344, guid: dc95bc11ea19dc443ad474bbed334643, type: 3}
   _bordingArea: {fileID: 5237133007605349069, guid: bde510777a4351c4e909ad5eaf8e7eab,
     type: 3}
   _hitchhikersParent: {fileID: 2034827487}

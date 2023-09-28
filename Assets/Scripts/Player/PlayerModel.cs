@@ -147,6 +147,7 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
             StopCoroutine(_boostCoroutine);
             _boostCoroutine = null;
             _currentMoveSpeed = _originSpeed;
+            _accelEffect.SetActive(false);
         }
     }
     /// <summary>
