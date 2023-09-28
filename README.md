@@ -17,13 +17,22 @@ https://shinnakajima128.github.io/CrossGame/
 ## 適用したデザインパターン
 ・Singleton
 
+https://github.com/ShinNakajima128/CrossGame/blob/master/Assets/Scripts/DesignPattern/SingletonMonoBehaviour.cs
+
 ・State
+
+https://github.com/ShinNakajima128/CrossGame/tree/master/Assets/Scripts/System/State
 
 ・ObjectPool
 
+https://github.com/ShinNakajima128/CrossGame/blob/master/Assets/Scripts/DesignPattern/ObjectPool.cs
+
 ・Observer
 
+https://github.com/ShinNakajima128/CrossGame/blob/master/Assets/Scripts/System/GameManager.cs
+
 ・MVP(Model-View-Presenter)
+https://github.com/ShinNakajima128/CrossGame/tree/master/Assets/Scripts/Player
 
 ## ゲームの説明
 プレイヤーは「トラック」を運転し、「障害物」や「交差点」を乗り越え、ゴールにたどり着くまでの間で多くのスコア獲得を目指すランゲームとなっています。
