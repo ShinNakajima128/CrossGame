@@ -1,11 +1,12 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
 
 public partial class PlayerModel : MonoBehaviour
 {
+    /// <summary>
+    /// プレイヤーの状態を管理するクラス
+    /// </summary>
     public class PlayerStatus
     {
         #region property
@@ -15,17 +16,24 @@ public partial class PlayerModel : MonoBehaviour
         #endregion
 
         #region private
+        /// <summary>現在の状態</summary>
         private PlayerState _currentState;
         #endregion
 
-        #region Constant
+        #region const
+        /// <summary>ヒッチハイカーの人数に応じた速度の係数</summary>
+        private const float SPEED_COEFFICIENT_HITCHHIKER = 0.15f;
         #endregion
 
         #region Event
+        /// <summary>コンボ数の更新を通知するReactiveProperty</summary>
         private ReactiveProperty<int> _currentComboAmountRP = new ReactiveProperty<int>();
         #endregion
 
         #region public method
+        /// <summary>
+        /// コンストラクタ
+        /// </summary>
         public PlayerStatus()
         {
             _currentState = PlayerState.Normal;
@@ -38,9 +46,14 @@ public partial class PlayerModel : MonoBehaviour
         {
             _currentComboAmountRP.Value++;
         }
-
+        /// <summary>
+        /// 状態を変更する
+        /// </summary>
+        /// <param name="model">プレイヤーモデル</param>
+        /// <param name="newState">次の状態</param>
         public void ChangeState(PlayerModel model, PlayerState newState)
         {
+            //同じ状態の場合を処理を終了
             if (_currentState == newState)
             {
                 return;
@@ -87,33 +100,39 @@ public partial class PlayerModel : MonoBehaviour
             }
             _currentState = newState;
         }
-
+        /// <summary>
+        /// プレイヤーオブジェクトの透過状態を変更する
+        /// </summary>
+        /// <param name="model">プレイヤーモデル</param>
+        /// <param name="amount">透過値</param>
         public void ChangeTransparency(PlayerModel model, float amount)
         {
+            //ディザリングシェーダーの透過プロパティに数値を代入
             model._playerModelRenderer.material.SetFloat("_Opacity", amount);
         }
-
-        public void ChangeHitchhikerNum(PlayerModel model)
+        /// <summary>
+        /// ヒッチハイカーの人数に応じた移動速度に変更する
+        /// </summary>
+        /// <param name="model">プレイヤーモデル</param>
+        public void ChangeSpeedAccordingHitchhiker(PlayerModel model)
         {
-            model._currentMoveSpeed += model._moveSpeed * 0.15f;
+            model._currentMoveSpeed += model._moveSpeed * SPEED_COEFFICIENT_HITCHHIKER;
         }
-
+        /// <summary>
+        /// コンボ数をリセットする
+        /// </summary>
         public void ResetCombo()
         {
             _currentComboAmountRP.Value = 0;
         }
-
+        /// <summary>
+        /// プレイヤーの状態をリセットする
+        /// </summary>
         public void ResetStatus()
         {
             _currentState = PlayerState.Normal;
             _currentComboAmountRP.Value = 0;
         }
-        #endregion
-
-        #region private method
-        #endregion
-
-        #region coroutine method
         #endregion
     }
 }

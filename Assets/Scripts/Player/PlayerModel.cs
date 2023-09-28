@@ -190,7 +190,7 @@ public partial class PlayerModel : MonoBehaviour, IDamagable
     /// </summary>
     public void AddHitchhiker()
     {
-        _status.ChangeHitchhikerNum(this);
+        _status.ChangeSpeedAccordingHitchhiker(this);
     }
     /// <summary>
     /// áŠQ•¨‚ğ’Ê‰ß‚µ‚½ƒRƒ“ƒ{”‚ğ‘‚â‚·
