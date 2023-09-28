@@ -1,5 +1,9 @@
 using UnityEngine;
 
+/// <summary>
+/// シングルトンの機能を持つコンポーネント。継承での使用のみ
+/// </summary>
+/// <typeparam name="T"></typeparam>
 public abstract class SingletonMonoBehaviour<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T instance;

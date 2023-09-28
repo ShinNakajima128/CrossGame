@@ -3,8 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UniRx;
-using TMPro;
 
+/// <summary>
+/// ゲームの進行状況、イベント処理を管理するManager
+/// </summary>
 [RequireComponent(typeof(GameStateMachine))]
 public class GameManager : SingletonMonoBehaviour<GameManager>
 {
@@ -22,23 +24,24 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     #endregion
 
     #region serialize
+    [Tooltip("タイトル画面のCanvasGroup")]
     [SerializeField]
     private CanvasGroup _titleGroup = default;
 
+    [Tooltip("インゲーム画面のCanvasGroup")]
     [SerializeField]
     private CanvasGroup _inGameGroup = default;
 
+    [Tooltip("リザルト画面のCanvasGroup")]
     [SerializeField]
     private CanvasGroup _resultGroup = default;
     #endregion
 
     #region private
+    /// <summary>現在のゲームの状態に応じた処理を行うコンポーネント</summary>
     private GameStateMachine _stateMachine;
-
+    /// <summary>現在のゲームの状態</summary>
     private GameState _currentState;
-    #endregion
-
-    #region Constant
     #endregion
 
     #region Event
@@ -78,7 +81,9 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
     }
     private void Start()
     {
+        //画面を明転
         FadeManager.Fade(FadeType.In);
+        //開始時はタイトル画面を表示
         ChangeViewGroup(GameState.Title);
     }
     #endregion
@@ -110,16 +115,23 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         FadeManager.Fade(FadeType.Out, () =>
         {
             FadeManager.Fade(FadeType.In);
-            CameraManager.Instance.ChangeCamera(CameraType.InGame, 0f);
-            TimeManager.Instance.OnCountDown();
+            CameraManager.Instance.ChangeCamera(CameraType.InGame, 0f); //カメラをインゲーム用に切り替える
+            TimeManager.Instance.OnCountDown(); //カウントダウン開始
         });
     }
 
+    /// <summary>
+    /// ゲームを再スタートする
+    /// </summary>
     public void OnGameReStart()
     {
         CameraManager.Instance.ChangeCamera(CameraType.InGame, 0f);
         TimeManager.Instance.OnCountDown();
     }
+    /// <summary>
+    /// インゲーム中かどうかを切り替える
+    /// </summary>
+    /// <param name="value">ON/OFF</param>
     public void OnChangeIsInGame(bool value)
     {
         _isInGameSubject.OnNext(value);
@@ -180,6 +192,10 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
         _gameResetSubject.OnNext(Unit.Default);
     }
 
+    /// <summary>
+    /// ゲーム画面を切り替える
+    /// </summary>
+    /// <param name="state">ゲームの状態</param>
     public void ChangeViewGroup(GameState state)
     {
         switch (state)
@@ -203,11 +219,5 @@ public class GameManager : SingletonMonoBehaviour<GameManager>
                 break;
         }
     }
-    #endregion
-
-    #region private method
-    #endregion
-
-    #region coroutine method
     #endregion
 }

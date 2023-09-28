@@ -1,5 +1,7 @@
+// ゲーム中に使用するEnumをまとめたScript
+
 /// <summary>
-/// ゲーム中に使用するEnumをまとめたScript
+/// ゲームの状態
 /// </summary>
 public enum GameState
 {
@@ -8,6 +10,9 @@ public enum GameState
     Result
 }
 
+/// <summary>
+/// プレイヤーの状態
+/// </summary>
 public enum PlayerState
 {
     /// <summary>
@@ -28,14 +33,9 @@ public enum PlayerState
     Invincible
 }
 
-public enum BuildingType
-{
-    Building1,
-    Building2,
-    Building3,
-    Building4,
-}
-
+/// <summary>
+/// 障害物の種類
+/// </summary>
 public enum ObstacleType
 {
     Car_Normal,
@@ -46,25 +46,38 @@ public enum ObstacleType
     Box,
     Barricade
 }
+/// <summary>
+/// アイテムの種類
+/// </summary>
 public enum ItemType
 {
     Boost,
     Infiltrator,
 }
 
+/// <summary>
+/// 建物の生成位置
+/// </summary>
 public enum GeneratePointType
 {
     Left,
     Right
 }
-
+/// <summary>
+/// BGMの種類
+/// </summary>
 public enum BGMType
 {
     /// <summary> タイトル画面 </summary>
     Title,
+    /// <summary> インゲーム画面 </summary>
     InGame,
+    /// <summary> リザルト画面 </summary>
     Result
 }
+/// <summary>
+/// SEの種類
+/// </summary>
 public enum SEType
 {
     Title_GameStart,
@@ -91,13 +104,9 @@ public enum SEType
     Infiltrator,
     BackToNormalState
 }
-
-public enum StageLevel
-{
-    Easy,
-    Normal,
-    Hard
-}
+/// <summary>
+/// ヒッチハイカーの種類
+/// </summary>
 public enum HitchhikerType
 {
     Female_G,
@@ -107,19 +116,26 @@ public enum HitchhikerType
     Little_Boy,
     MAX_NUM
 }
+/// <summary>
+/// ヒッチハイカーの状態
+/// </summary>
 public enum HitchhikerState
 {
     Idle,
     Dancing,
     BlowOff
 }
-
+/// <summary>
+/// カメラの種類
+/// </summary>
 public enum CameraType
 {
     Title,
     InGame
 }
-
+/// <summary>
+/// リザルト画面のボタンの種類
+/// </summary>
 public enum ResultButtonType
 {
     Retry,

@@ -18,6 +18,7 @@ public partial class Obstacle : MonoBehaviour, IPoolable
     #endregion
 
     #region serialize
+    [Tooltip("áŠQ•¨‚Ìƒf[ƒ^")]
     [SerializeField]
     private ObstacleData _data = default;
     #endregion
