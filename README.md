@@ -17,13 +17,23 @@ https://shinnakajima128.github.io/CrossGame/
 ## 適用したデザインパターン
 ・Singleton
 
+https://github.com/ShinNakajima128/CrossGame/blob/master/Assets/Scripts/DesignPattern/SingletonMonoBehaviour.cs
+
 ・State
+
+https://github.com/ShinNakajima128/CrossGame/tree/master/Assets/Scripts/System/State
 
 ・ObjectPool
 
+https://github.com/ShinNakajima128/CrossGame/blob/master/Assets/Scripts/DesignPattern/ObjectPool.cs
+
 ・Observer
 
+https://github.com/ShinNakajima128/CrossGame/blob/master/Assets/Scripts/System/GameManager.cs
+
 ・MVP(Model-View-Presenter)
+
+https://github.com/ShinNakajima128/CrossGame/tree/master/Assets/Scripts/Player
 
 ## ゲームの説明
 プレイヤーは「トラック」を運転し、「障害物」や「交差点」を乗り越え、ゴールにたどり着くまでの間で多くのスコア獲得を目指すランゲームとなっています。
@@ -85,3 +95,12 @@ https://shinnakajima128.github.io/CrossGame/
 ・「交差点」を走っている車に当たると一定時間行動不能、乗車している「ヒッチハイカー」は全てリセットされ、走行速度も元に戻る。
 
 ・「工事中エリア」に侵入すると、一定時間速度が低下。
+
+・ゴールにたどり着くとゲーム終了し、リザルト画面が表示される。
+
+・リザルト画面では、「ゲーム中に獲得したスコア」「ゴールまで乗車していたヒッチハイカーの人数に応じたスコア」「クリアタイムに応じたスコア」を合算したトータルスコアを計測。
+
+・リザルト表示終了後、「リトライ」「タイトル画面に戻る」を選択可能。
+
+## その他試したこと
+・オブジェクトのディザリング透過処理をShaderGraphにて作成しました。
