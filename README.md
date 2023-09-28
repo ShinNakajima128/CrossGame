@@ -47,9 +47,10 @@ https://github.com/ShinNakajima128/CrossGame/tree/master/Assets/Scripts/Player
 
 道路の左右に立っている「ヒッチハイカー」は、プレイヤーが近づくと自動的に乗車します。
 
-<img src="./JOYRIDE_SS/スクリーンショット 2023-09-27 141231.jpg" width="200px" height="200px"></img>
-
 一人につき、走行速度が15%上昇。最大6人まで乗車可能。
+
+<img src="./JOYRIDE_SS/スクリーンショット 2023-09-27 141231.jpg" width="200px" height="200px"></img>
+<img src="./JOYRIDE_SS/スクリーンショット 2023-09-27 153451.jpg" width="200px" height="200px"></img>
 
 「交差点」では、ここを走っている車に当たると「一定時間行動不能」となる他、乗車しているヒッチハイカーが全員車から落下し、走行速度が元に戻ります。
 
