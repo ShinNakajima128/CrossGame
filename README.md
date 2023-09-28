@@ -105,3 +105,4 @@ https://github.com/ShinNakajima128/CrossGame/tree/master/Assets/Scripts/Player
 
 ## その他試したこと
 ・オブジェクトのディザリング透過処理をShaderGraphにて作成しました。
+・一部クラスを「Partialクラス」として作成しました。
